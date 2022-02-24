@@ -4,9 +4,11 @@ import primitives.Point;
 import primitives.Vector;
 
 public class Sphere implements Geometry{
+
     private Point center;
     private Vector normal;
 
+    //region constructor
     /***
      * constructor
      * normalize the vector
@@ -17,6 +19,7 @@ public class Sphere implements Geometry{
         this.center = center;
         this.normal = normal.normalize();
     }
+    //endregion
 
     //region getter
     public Point getCenter() {
@@ -36,10 +39,10 @@ public class Sphere implements Geometry{
                 '}';
     }
 
+    //region methods
     @Override
     public Vector getNormal(Point p1) {
         return null;
     }
-
-
+    //endregion
 }

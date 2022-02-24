@@ -3,10 +3,6 @@ import java.util.Objects;
 
 import static primitives.Double3.ZERO;
 
-/**
- * Point class
- * arg: Double3 xyz
- */
 public class Point {
 
     /***protected?*/
@@ -23,7 +19,7 @@ public class Point {
         xyz = new Double3(x,y,z);
     }
 
-    /***
+    /**
      * constructor
      * @param xyz
      */
@@ -45,7 +41,8 @@ public class Point {
         return xyz.toString();
     }
 
-    /***
+    //region methods
+    /**
      * build vector with 2 points
      * @param p1
      * @return Vector
@@ -54,19 +51,19 @@ public class Point {
         return new Vector(xyz.subtract(p1.xyz));
     }
 
-    /***
-     *
+    /**
+     *add vector to the point
      * @param vector
-     * @return
+     * @return Point
      */
     public Point add(Vector vector) {
         return new Point(xyz.add(vector.xyz));
     }
 
-    /***
+    /**
      * compute distance^2 between this and p1
      * @param p1
-     * @return distance Squared
+     * @return double
      */
     public double distanceSquared(Point p1){
         Double3 subPoint = xyz.subtract(p1.xyz);
@@ -74,13 +71,14 @@ public class Point {
         return proPoint.d1 + proPoint.d2 + proPoint.d3;
     }
 
-    /***
+    /**
      * compute distance between this and p1
      * @param p1
-     * @return distance
+     * @return double
      */
     public double distance (Point p1){
         return Math.sqrt(this.distanceSquared(p1));
     }
+    //endregion
 
 }

@@ -5,9 +5,11 @@ import primitives.Ray;
 import primitives.Vector;
 
 public class Tube implements Geometry{
+
     protected Ray axisRay;
     protected double radius;
 
+    //region constructor
     /***
      * constructor
      * @param axisRay
@@ -17,6 +19,7 @@ public class Tube implements Geometry{
         this.axisRay = axisRay;
         this.radius = radius;
     }
+    //endregion
 
     //region getter
     public Ray getAxisRay() {
@@ -36,8 +39,10 @@ public class Tube implements Geometry{
                 '}';
     }
 
+    //region methods
     @Override
     public Vector getNormal(Point p1) {
         return null;
     }
+    //endregion
 }

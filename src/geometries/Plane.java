@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Vector;
 
 public class Plane implements Geometry {
+
     private Point q0;
     private Vector normal;
 
@@ -20,11 +21,11 @@ public class Plane implements Geometry {
         this.normal = normal.normalize();
     }
 
-    /***
+    /**
      * constructor
      * found the normal from 3 points
      * check if the 3 point can build plan
-     * throw exception from point if the 3 point can't build a plan
+     * throw exception from vector if the 3 point can't build a plan
      * @param p1
      * @param p2
      * @param p3
@@ -39,14 +40,6 @@ public class Plane implements Geometry {
     }
 //endregion
 
-    @Override
-    public String toString() {
-        return "Plane{" +
-                "q0=" + q0 +
-                ", normal=" + normal +
-                '}';
-    }
-
     //region getter
     public Point getQ0() {
         return q0;
@@ -58,7 +51,18 @@ public class Plane implements Geometry {
     //endregion
 
     @Override
+    public String toString() {
+        return "Plane{" +
+                "q0=" + q0 +
+                ", normal=" + normal +
+                '}';
+    }
+
+    //region methods
+    @Override
     public Vector getNormal(Point p1) {
         return normal;
     }
+    //endregion
+
 }

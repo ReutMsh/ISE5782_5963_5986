@@ -5,6 +5,7 @@ import primitives.Vector;
 
 public class Triangle extends Polygon{
 
+    //region constructor
     /***
      * constructor
      * get 3 points
@@ -13,6 +14,7 @@ public class Triangle extends Polygon{
     public Triangle(Point... vertices) {
         super(vertices);
     }
+    //endregion
 
     @Override
     public String toString() {
@@ -21,5 +23,4 @@ public class Triangle extends Polygon{
                 ", plane=" + plane +
                 '}';
     }
-
 }

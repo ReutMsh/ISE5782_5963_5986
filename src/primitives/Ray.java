@@ -2,16 +2,12 @@ package primitives;
 
 import java.util.Objects;
 
-/**
- * Ray class
- * arg: Point p0
- * arg: Vector dir
- */
 public class Ray {
     private Point p0;
     private Vector dir;
 
-    /***
+    //region constructor
+    /**
      * constructor
      * normalize the vector and build the ray
      * @param p0
@@ -21,6 +17,7 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+    //endregion
 
     @Override
     public boolean equals(Object o) {

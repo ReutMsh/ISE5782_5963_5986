@@ -1,15 +1,10 @@
 package primitives;
 import static primitives.Double3.ZERO;
 
-/**
- * class of vector
- * extends from Point
- */
-
 public class Vector extends Point{
 
     //region constructors
-    /***
+    /**
      * constructor
      * @param x
      * @param y
@@ -22,7 +17,7 @@ public class Vector extends Point{
             throw new IllegalArgumentException("ERROR: zero vector");}
     }
 
-    /***
+    /**
      * constructor
      * @param xyz
      * throw exception if this zero vector
@@ -33,7 +28,6 @@ public class Vector extends Point{
             throw new IllegalArgumentException("ERROR: zero vector");}
     }
 //endregion
-
 
     @Override
     public String toString() {
@@ -47,7 +41,9 @@ public class Vector extends Point{
         return super.equals(o);
     }
 
-    /***
+    //region methods
+
+    /**
      * add this with v1
      * @param v1
      * @return Vector
@@ -56,7 +52,7 @@ public class Vector extends Point{
         return new Vector(xyz.add(v1.xyz));
     }
 
-    /***
+    /**
      * scale this with v1
      * @param scalar
      * @return Vector
@@ -65,7 +61,7 @@ public class Vector extends Point{
         return  new Vector(xyz.scale(scalar));
     }
 
-    /***
+    /**
      * compute length^2
      * @return double
      */
@@ -74,7 +70,7 @@ public class Vector extends Point{
         return proPoint.d1 + proPoint.d2 + proPoint.d3;
     }
 
-    /***
+    /**
      * compute length
      * @return double
      */
@@ -82,7 +78,7 @@ public class Vector extends Point{
         return Math.sqrt(this.lengthSquared());
     }
 
-    /***
+    /**
      * scalar multi
      * @param v3
      * @return double
@@ -92,7 +88,7 @@ public class Vector extends Point{
         return prod3.d1 + prod3.d2 +prod3.d3;
     }
 
-    /***
+    /**
      * vector multi
      * @param v2
      * @return Vector
@@ -104,7 +100,7 @@ public class Vector extends Point{
         return new Vector(d1,d2,d3);
     }
 
-    /***
+    /**
      * normalize the vector
      * @return Vector
      */
@@ -113,4 +109,6 @@ public class Vector extends Point{
         double oneDivLength = 1/this.length();
         return new Vector(xyz.scale(oneDivLength));
     }
+    //endregion
+
 }
