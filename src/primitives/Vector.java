@@ -110,8 +110,7 @@ public class Vector extends Point{
      * @return Vector
      */
     public Vector normalize() {
-        double oneDivLength = 1/this.length();
-        return new Vector(xyz.scale(oneDivLength));
+        return new Vector(xyz.reduce(this.length()));
     }
     //endregion
 
