@@ -83,5 +83,4 @@ public class Point {
         return Math.sqrt(this.distanceSquared(p1));
     }
     //endregion
-
 }
