@@ -70,7 +70,7 @@ public class Point {
      */
     public double distanceSquared(Point p1){
         Double3 subPoint = xyz.subtract(p1.xyz);
-        Double3 proPoint = subPoint.product(subPoint);
+        Double3 proPoint = new Double3(subPoint.d1 * subPoint.d1, subPoint.d2 * subPoint.d2, subPoint.d3 * subPoint.d3);
         return proPoint.d1 + proPoint.d2 + proPoint.d3;
     }
 
