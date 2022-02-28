@@ -1,12 +1,15 @@
 package primitives;
 import java.util.Objects;
-
 import static primitives.Double3.ZERO;
 
+/**
+ * Class Point define point
+ * with double3
+ * @author Reut and odelya
+ */
 public class Point {
 
-    /***protected?*/
-    protected Double3 xyz;
+    Double3 xyz;
 
     //region constructor
     /**

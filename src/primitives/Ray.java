@@ -2,9 +2,14 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * Class Ray define ray
+ * with normalise vector and point
+ * @author Reut and odelya
+ */
 public class Ray {
-    private Point p0;
-    private Vector dir;
+    final private Point p0;
+    final private Vector dir;
 
     //region constructor
     /**

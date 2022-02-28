@@ -3,6 +3,11 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * class Triangle
+ * extends Polygon
+ * @author Reut and odelya
+ */
 public class Triangle extends Polygon{
 
     //region constructor

@@ -3,6 +3,12 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * class Plane
+ * define plane with point and normal vector
+ * implements Geometry
+ * @author Reut and odelya
+ */
 public class Plane implements Geometry {
 
     private Point q0;
@@ -17,7 +23,6 @@ public class Plane implements Geometry {
      */
     public Plane(Point q0, Vector normal) {
         this.q0 = q0;
-        /**לבדוק אם כדאי להוסיף בדיקה האם הוקטור כבר מנורמל*/
         this.normal = normal.normalize();
     }
 

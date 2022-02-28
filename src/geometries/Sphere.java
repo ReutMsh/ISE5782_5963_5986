@@ -3,6 +3,12 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * class Sphere
+ * define sphere with point and normal vector
+ * implements Geometry
+ * @author Reut and odelya
+ */
 public class Sphere implements Geometry{
 
     private Point center;

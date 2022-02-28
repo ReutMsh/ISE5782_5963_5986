@@ -3,6 +3,11 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * interface Geometry
+ * define all the geometry behavior
+ * @author Reut and odelya
+ */
 public interface Geometry {
 
     /***

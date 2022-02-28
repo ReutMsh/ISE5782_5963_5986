@@ -1,6 +1,11 @@
 package primitives;
 import static primitives.Double3.ZERO;
 
+/**
+ * Class Vector define Vector
+ * extends from point
+ * @author Reut and odelya
+ */
 public class Vector extends Point{
 
     //region constructors
@@ -105,7 +110,6 @@ public class Vector extends Point{
      * @return Vector
      */
     public Vector normalize() {
-        /**לבדוק אם 1/ עובד נכון*/
         double oneDivLength = 1/this.length();
         return new Vector(xyz.scale(oneDivLength));
     }
