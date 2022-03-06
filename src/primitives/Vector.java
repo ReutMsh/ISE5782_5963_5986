@@ -58,7 +58,7 @@ public class Vector extends Point{
     }
 
     /**
-     * scale this with v1
+     * scale Vector with scalar
      * @param scalar
      * @return Vector
      */

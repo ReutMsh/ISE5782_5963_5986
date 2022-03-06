@@ -12,43 +12,45 @@ import primitives.Vector;
 public class Sphere implements Geometry{
 
     private Point center;
-    private Vector normal;
+    private double radius;
 
     //region constructor
     /***
      * constructor
      * normalize the vector
      * @param center
-     * @param normal
+     * @param radius
      */
-    public Sphere(Point center, Vector normal) {
+    public Sphere(Point center, double radius) {
         this.center = center;
-        this.normal = normal.normalize();
+        this.radius = radius;
     }
     //endregion
 
     //region getter
+
     public Point getCenter() {
         return center;
     }
 
-    public Vector getNormal() {
-        return normal;
+    public double getRadius() {
+        return radius;
     }
+
     //endregion
 
     @Override
     public String toString() {
         return "Sphere{" +
                 "center=" + center +
-                ", normal=" + normal +
+                ", radius=" + radius +
                 '}';
     }
 
     //region methods
     @Override
     public Vector getNormal(Point p1) {
-        return null;
+        return p1.subtract(center).normalize();
     }
     //endregion
 }

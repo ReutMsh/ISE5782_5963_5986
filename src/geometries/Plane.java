@@ -36,12 +36,18 @@ public class Plane implements Geometry {
      * @param p3
      */
     public Plane(Point p1, Point p2, Point p3) {
-        Vector v1 = p1.subtract(p2);
-        Vector v2 = p2.subtract(p3);
 
-        /**throw exception from point if the 3 point can't build a plan*/
-        normal = v1.crossProduct(v2);
-        q0 = p1;
+        try {
+            Vector v1 = p1.subtract(p2);
+            Vector v2 = p2.subtract(p3);
+
+            normal = v1.crossProduct(v2).normalize();
+            q0 = p1;
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("the 3 point can't build a plan");
+        }
+
     }
 //endregion
 
@@ -68,6 +74,7 @@ public class Plane implements Geometry {
     public Vector getNormal(Point p1) {
         return normal;
     }
+
     //endregion
 
 }

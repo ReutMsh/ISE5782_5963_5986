@@ -38,7 +38,14 @@ public class Cylinder extends Tube{
     //region methods
     @Override
     public Vector getNormal(Point p1) {
-        return null;
+        //check if the point on the bottom base of the cylinder
+        if (p1.distanceSquared(axisRay.getP0()) < radius*radius)
+            return axisRay.getDir();
+        //check if the point on the top base of the cylinder
+        if(p1.distanceSquared(axisRay.getP0().add(axisRay.getDir().scale(height))) < radius*radius)
+            return axisRay.getDir().scale(-1);
+
+        return super.getNormal(p1);
     }
 //endregion
 }

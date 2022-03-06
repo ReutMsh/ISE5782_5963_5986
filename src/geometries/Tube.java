@@ -46,9 +46,14 @@ public class Tube implements Geometry{
     }
 
     //region methods
+
     @Override
     public Vector getNormal(Point p1) {
-        return null;
+        //t= A levy on the axis of the tube
+        double t = axisRay.getDir().dotProduct(p1.subtract(axisRay.getP0()));
+        //The center of the Galilee in relation to p1
+        Point O = axisRay.getP0().add(axisRay.getDir().scale(t));
+        return  p1.subtract(O).normalize();
     }
     //endregion
 }

@@ -8,8 +8,8 @@ import java.util.Objects;
  * @author Reut and odelya
  */
 public class Ray {
-    final private Point p0;
-    final private Vector dir;
+     private final  Point p0;
+     private final Vector dir;
 
     //region constructor
     /**
@@ -22,6 +22,18 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+    //endregion
+
+    //region get
+
+    public Point getP0() {
+        return p0;
+    }
+
+    public Vector getDir() {
+        return dir;
+    }
+
     //endregion
 
     @Override
