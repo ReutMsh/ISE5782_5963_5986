@@ -47,7 +47,6 @@ public class Plane implements Geometry {
         catch (IllegalArgumentException e){
             throw new IllegalArgumentException("the 3 point can't build a plan");
         }
-
     }
 //endregion
 
