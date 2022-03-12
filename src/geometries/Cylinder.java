@@ -3,6 +3,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * Class Cylinder define a final cylinder
  * extends Tube
@@ -47,5 +49,6 @@ public class Cylinder extends Tube{
 
         return super.getNormal(p1);
     }
-//endregion
+
+    //endregion
 }

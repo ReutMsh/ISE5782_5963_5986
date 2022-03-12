@@ -31,6 +31,18 @@ public class Point {
     }
 //endregion
 
+    //region getter
+    public Double getX() {
+        return xyz.d1;
+    }
+    public Double getY() {
+        return xyz.d2;
+    }
+    public Double getZ() {
+        return xyz.d3;
+    }
+//endregion
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

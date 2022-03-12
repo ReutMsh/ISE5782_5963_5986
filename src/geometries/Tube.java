@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * class Tube
  * define Tube with Ray and double radius
@@ -55,5 +57,11 @@ public class Tube implements Geometry{
         Point O = axisRay.getP0().add(axisRay.getDir().scale(t));
         return  p1.subtract(O).normalize();
     }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
+    }
+
     //endregion
 }

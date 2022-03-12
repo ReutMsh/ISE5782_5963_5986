@@ -8,7 +8,7 @@ import primitives.Vector;
  * define all the geometry behavior
  * @author Reut and odelya
  */
-public interface Geometry {
+public interface Geometry extends Intersectable  {
 
     /***
      * get normal in this point
