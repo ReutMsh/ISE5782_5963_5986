@@ -84,10 +84,9 @@ class PlaneTest {
         //TC14: in the plane
         ray = new Ray(new Point(5,3,2), new Vector(0, 0,1));
         ///לבדוק מה קורה אם מוחזר null בטעות
-        assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane" +
+        assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane" +
                 "when the ray is orthogonal to the plane in the plane");
-        assertEquals(pl.findIntersections(ray).get(0), new Point(5,3,2), "ERROR: Wrong value point intersects the plane" +
-                "when the ray is orthogonal to the plane in the plane");
+
 
         //TC15: after the plane
         ray = new Ray(new Point(0,3,4), new Vector(0, 0,1));
@@ -98,19 +97,12 @@ class PlaneTest {
 
         //TC16: Ray is neither orthogonal nor parallel to and begins at the plane
         ray = new Ray(new Point(1,0,2), new Vector(1, 1,1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
-        assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane " +
-                "when the ray is neither orthogonal nor parallel to and begins at the plane");
-        assertEquals(pl.findIntersections(ray).get(0), new Point(2,2,2), "ERROR: Wrong value point intersects the plane " +
+        assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
                 "when the ray is neither orthogonal nor parallel to and begins at the plane");
 
         //TC17: Ray is neither orthogonal nor parallel to the plane and begins in the same point which appears as reference point in the plane
         ray = new Ray(pl.getQ0(), new Vector(0, 1,1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
-        assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane " +
+        assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
                 "when the ray is neither orthogonal nor parallel to and begins in the same point which appears as reference point in the plane");
-        assertEquals(pl.findIntersections(ray).get(0), new Point(0,2,2), "ERROR: Wrong value point intersects the plane " +
-                "when the ray is neither orthogonal nor parallel to and the same point which appears as reference point in the plane");
-
     }
 }

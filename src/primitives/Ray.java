@@ -51,4 +51,8 @@ public class Ray {
                 ", dir=" + dir +
                 '}';
     }
+
+    public Point getPoint(double t){
+        return getP0().add(getDir().scale(t));
+    }
 }
