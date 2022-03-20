@@ -7,8 +7,15 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for geometries.Geometries class
+ * @author Reut & Odelya
+ */
 class GeometriesTest {
 
+    /**
+     * Test method for {@link geometries.Geometries#findIntersections(Ray)}.
+     */
     @Test
     void testFindIntersections() {
         Plane pl = new Plane(new Point(0,0,2), new Point(1,0,2), new Point(0,1,2));

@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * class Geometries
+ * Department for the Association of Geometric Bodies
+ * implements Intersectable
+ * @author Reut and odelya
+ */
 public class Geometries implements Intersectable {
 
     List<Intersectable> list;
@@ -29,7 +35,7 @@ public class Geometries implements Intersectable {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        //לבדוק אם זה בסדר שבנינו מערך גם אם אין חיתוכים
+
         List<Point> listOfAllThePoint = new ArrayList<>();
 
         for (Intersectable geometry : list) {
@@ -45,6 +51,10 @@ public class Geometries implements Intersectable {
         return listOfAllThePoint;
     }
 
+    /**
+     * add geometry to the list
+     * @param geometries
+     */
     public void add(Intersectable... geometries){
         for (Intersectable geometry : geometries) {
             list.add(geometry);

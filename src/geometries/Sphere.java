@@ -82,17 +82,16 @@ public class Sphere implements Geometry{
 
             th = Math.sqrt(radius * radius - dSquared);
         }
+
         double t1 = alignZero(tm + th);
         double t2 = alignZero(tm - th);
 
         if (t1 <= 0 && t2 <= 0){return null;}
+
         List<Point> list=new ArrayList<Point>();
+        if (t1 > 0) {list.add(ray.getPoint(t1));}
+        if (t2 > 0) {list.add(ray.getPoint(t2));}
 
-        if (t1 > 0)
-            list.add(ray.getPoint(t1));
-
-        if (t2 > 0)
-            list.add(ray.getPoint(t2));
         return list;
     }
 
