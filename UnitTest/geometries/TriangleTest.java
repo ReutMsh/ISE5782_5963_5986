@@ -21,6 +21,7 @@ class TriangleTest {
 
         //all the tests are only if the ray intersects with the plane
         //hello
+        //world
         // ============ Equivalence Partitions Tests ==============
         //TC01: the point inside the triangle
         Ray ray = new Ray(new Point(2,0,0), new Vector(-1, 2,2));
