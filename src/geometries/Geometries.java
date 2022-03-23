@@ -15,17 +15,17 @@ import java.util.List;
  */
 public class Geometries implements Intersectable {
 
-    List<Intersectable> list;
+    List<Intersectable> geometries;
 
     //region constructor
     public Geometries() {
-        list = new LinkedList<>();
+        geometries = new LinkedList<>();
     }
 
     public Geometries(Intersectable... geometries){
-        list = new LinkedList<>();
+        this.geometries = new LinkedList<>();
         for (Intersectable geometry : geometries) {
-            list.add(geometry);
+            this.geometries.add(geometry);
         }
     }
 
@@ -38,12 +38,10 @@ public class Geometries implements Intersectable {
 
         List<Point> listOfAllThePoint = new ArrayList<>();
 
-        for (Intersectable geometry : list) {
+        for (Intersectable geometry : geometries) {
             List<Point> pointList = geometry.findIntersections(ray);
             if (pointList == null) continue;
-            for (Point point : pointList) {
-                listOfAllThePoint.add(point);
-            }
+            listOfAllThePoint.addAll(pointList);
         }
 
         if (listOfAllThePoint.size() == 0)
@@ -57,7 +55,7 @@ public class Geometries implements Intersectable {
      */
     public void add(Intersectable... geometries){
         for (Intersectable geometry : geometries) {
-            list.add(geometry);
+            this.geometries.add(geometry);
         }
     }
 //endregion

@@ -42,7 +42,7 @@ class GeometriesTest {
                 "when only one geometry is intersection");
         //TC13:all the geometries are intersection
         ray = new Ray(new Point(0.5,0,3), new Vector(0,0,-6));
-        assertEquals(geometries.findIntersections(ray).size(), 4, "ERROR: Wrong number of points intersects the geometries " +
+        assertEquals(4, geometries.findIntersections(ray).size(),  "ERROR: Wrong number of points intersects the geometries " +
                 "when all the geometries are intersection");
         //TC14: the geometries are empty
         geometries = new Geometries();
