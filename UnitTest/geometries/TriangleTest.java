@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Reut & Odelya
  */
 class TriangleTest {
-
     /**
      * Test method for {@link geometries.Triangle#findIntersections(Ray)}.
      */
