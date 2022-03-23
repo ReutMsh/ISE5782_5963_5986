@@ -20,7 +20,7 @@ class TriangleTest {
         Triangle triangle = new Triangle(new Point(0,-1,2), new Point(3,3,2), new Point(-3,3,2));
 
         //all the tests are only if the ray intersects with the plane
-
+        //world
         // ============ Equivalence Partitions Tests ==============
         //TC01: the point inside the triangle
         Ray ray = new Ray(new Point(2,0,0), new Vector(-1, 2,2));
