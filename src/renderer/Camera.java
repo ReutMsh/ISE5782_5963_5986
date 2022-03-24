@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 /**
  * Class Camera
  *
@@ -87,15 +89,26 @@ public class Camera {
     //endregion
 
     /**
-     * Produces a beam that passes through the view plane and the camera
+     * build ray from the camera to center pixel desired
      * @param nX
      * @param nY
      * @param j
      * @param i
-     * @return
+     * @return Ray
      */
     public Ray constructRay(int nX, int nY, int j, int i)
     {
-        return null;
+
+        Point pCenterVP = p0.add(vTo.scale(distance));
+        double rX = width/nX;
+        double rY = height/nY;
+        double xJ = (j - (nX-1)/2d)*rX;
+        double yI = -(i - (nY-1)/2d)*rY;
+
+        Point pIJ = pCenterVP;
+        if(!isZero(xJ)) { pIJ = pIJ.add(vRight.scale(xJ));}
+        if(!isZero(yI)) {pIJ = pIJ.add(vUp.scale(yI));}
+
+        return new Ray(p0, pIJ.subtract(p0));
     }
 }
