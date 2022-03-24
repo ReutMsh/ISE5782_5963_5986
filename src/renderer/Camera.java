@@ -53,7 +53,6 @@ public class Camera {
     //endregion
 
     //region constructor
-
     /**
      * constructor
      * If the vector are not vertical- throw exception
@@ -64,7 +63,9 @@ public class Camera {
      */
     public Camera(Point p0, Vector vTo, Vector vUp) {
         this.p0 = p0;
-        if(vTo.dotProduct(vUp)!= 0) {
+        //check if the vectors are vertical
+        if(vTo.dotProduct(vUp)!= 0)
+        {
             throw new IllegalArgumentException("the 3 point can't build a plan");
         }
         this.vTo = vTo.normalize();

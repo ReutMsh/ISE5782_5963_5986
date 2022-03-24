@@ -10,7 +10,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Testing Camera Class and intersection with geometry
+ *
+ * @author Odelya and Reut
+ *
+ */
 class rayConstructionTest {
 
     //region method
@@ -39,6 +44,7 @@ class rayConstructionTest {
     }
     //endregion
 
+    //region test ray in Sphere
     /**
      * Test integration between {@link Camera#constructRay(int, int, int, int)} and {@link geometries.Sphere#findIntersections(Ray)}.
      */
@@ -72,6 +78,9 @@ class rayConstructionTest {
     /**
      * Test integration between {@link Camera#constructRay(int, int, int, int)} and {@link geometries.Plane#findIntersections(Ray)}.
      */
+    //endregion
+
+    // region test ray in Plan
     @Test
     void testRayConstructionPlan() {
 
@@ -90,7 +99,9 @@ class rayConstructionTest {
         plane = new Plane(new Point(0,0,-2), new Point(-0.5, -1.5, -1), new Point(-0.5, 1.5, -1));
         assertEquals(6, findNumOfIntersections(camera, plane, 3,3), "ERROR: the number of intersections is not the same in Plan , TC3");
     }
+    //endregion
 
+    //region test ray in Triangle
     /**
      * Test integration between {@link Camera#constructRay(int, int, int, int)} and {@link geometries.Triangle#findIntersections(Ray)}.
      */
@@ -109,7 +120,9 @@ class rayConstructionTest {
         assertEquals(2, findNumOfIntersections(camera, triangle, 3,3), "ERROR: the number of intersections is not the same in Triangle , TC2");
 
     }
+    //endregion
 
+    //region test ray in Geometries
     @Test
     void testRayConstructionGeometries() {
         Camera camera = new Camera(new Point(0,0,0), new Vector(0,0,-1), new Vector(0,1,0)).setVPDistance(1);
@@ -122,4 +135,5 @@ class rayConstructionTest {
         //TC1: 2 intersection with the sphere, 9 intersection with the plan, 2 intersection with the triangle.
         assertEquals(13, findNumOfIntersections(camera, new Geometries(sphere, plane, triangle), 3,3), "ERROR: the number of intersections is not the same in geometries , TC1");
     }
+    //endregion
 }
