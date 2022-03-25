@@ -89,6 +89,7 @@ public class Camera {
     }
     //endregion
 
+    //region method
     /**
      * build ray from the camera to center pixel desired
      * @param nX
@@ -112,4 +113,5 @@ public class Camera {
 
         return new Ray(p0, pIJ.subtract(p0));
     }
+    //endregion
 }

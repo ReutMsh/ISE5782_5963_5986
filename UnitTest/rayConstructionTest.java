@@ -12,9 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Testing Camera Class and intersection with geometry
- *
  * @author Odelya and Reut
- *
  */
 class rayConstructionTest {
 
@@ -75,12 +73,12 @@ class rayConstructionTest {
         assertEquals(0, findNumOfIntersections(camera, sphere, 3,3) ,  "ERROR: the number of intersections is not the same in sphere , TC5");
     }
 
-    /**
-     * Test integration between {@link Camera#constructRay(int, int, int, int)} and {@link geometries.Plane#findIntersections(Ray)}.
-     */
     //endregion
 
     // region test ray in Plan
+    /**
+     * Test integration between {@link Camera#constructRay(int, int, int, int)} and {@link geometries.Plane#findIntersections(Ray)}.
+     */
     @Test
     void testRayConstructionPlan() {
 
