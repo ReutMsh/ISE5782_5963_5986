@@ -63,7 +63,7 @@ public class Camera {
     public Camera(Point p0, Vector vTo, Vector vUp) {
         this.p0 = p0;
         //check if the vectors are vertical
-        if(vTo.dotProduct(vUp)!= 0)
+        if(!isZero(vTo.dotProduct(vUp)))
         {
             throw new IllegalArgumentException("the 3 point can't build a plan");
         }
