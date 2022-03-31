@@ -9,6 +9,7 @@ import static primitives.Double3.ZERO;
  */
 public class Point {
 
+    public static final Point ZERO = new Point(0,0,0);
     Double3 xyz;
 
     //region constructor

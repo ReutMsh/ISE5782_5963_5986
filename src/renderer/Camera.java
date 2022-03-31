@@ -1,17 +1,21 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
 
 /**
  * Class Camera
  *
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Camera {
+
     private Point p0;
     private Vector vTo;
     private Vector vUp;
@@ -20,6 +24,9 @@ public class Camera {
     private double width;
     private double height;
     private double distance;
+
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
     //region get
     public Point getP0() {
@@ -88,7 +95,20 @@ public class Camera {
     }
     //endregion
 
-    //region method
+    //region set for image
+    public Camera setImageWriter(ImageWriter imageWriter)
+    {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+    public Camera setRayTracer(RayTracerBase rayTracer) {
+        this.rayTracer = rayTracer;
+        return this;
+    }
+    //endregion
+
+    //region methods
     /**
      * build ray from the camera to center pixel desired
      * @param nX
@@ -112,5 +132,83 @@ public class Camera {
 
         return new Ray(p0, pIJ.subtract(p0));
     }
+
+    /**
+     *Check the field values - that they are not empty
+     * For each pixel we get the appropriate color by sending a ray
+     */
+    public void renderImage()
+    {
+        if( width == 0 )
+        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,  "width");}
+        if( height == 0)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,"height");}
+        if(distance == 0)
+        {     throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "distance");}
+        if(imageWriter == null)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
+        if(rayTracer ==null)
+        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
+
+        // throw new  UnsupportedOperationException();
+
+        //A loop that colors each pixel in a color that suits it
+        for (int i =0; i<imageWriter.getNy(); i++)
+        {
+            for (int j =0; j<imageWriter.getNx(); j++)
+            {
+               Ray rayPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i );
+               Color colorPixel= rayTracer.traceRay(rayPixel);
+               imageWriter.writePixel(j, i, colorPixel);
+            }
+        }
+
+
+    }
+
+
+    /**
+     * Creates a grid of lines on the image - Grid
+     * @param interval
+     * @param color
+     */
+    public void printGrid(int interval, Color color)
+    {
+        //check if the value is not null
+        if(imageWriter == null)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
+
+        //A loop that colors the rows
+        for (int i =0; i<imageWriter.getNy(); i+=interval)
+        {
+            for (int j =0; j<imageWriter.getNx(); j++)
+            {
+                imageWriter.writePixel(j, i, color);
+            }
+        }
+
+        //A loop that colors the columns
+        for (int j =0; j<imageWriter.getNx(); j+=interval)
+        {
+            for (int i =0; i<imageWriter.getNy(); i++)
+            {
+                imageWriter.writePixel(j, i, color);
+            }
+        }
+    }
+
+    /**
+     * Act of delegation
+     */
+    public void writeToImage()
+    {
+        //check if the value is not null
+        if(imageWriter == null)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
+
+        imageWriter.writeToImage();
+    }
+
+
     //endregion
 }

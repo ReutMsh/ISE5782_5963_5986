@@ -1,5 +1,6 @@
 package primitives;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -8,13 +9,15 @@ import java.util.Objects;
  * @author Reut and odelya
  */
 public class Ray {
-     private final  Point p0;
-     private final Vector dir;
+    private final Point p0;
+    private final Vector dir;
 
     //region constructor
+
     /**
      * constructor
      * normalize the vector and build the ray
+     *
      * @param p0
      * @param dir
      */
@@ -52,7 +55,26 @@ public class Ray {
                 '}';
     }
 
-    public Point getPoint(double t){
+    /**
+     *Finding a point that is at a distance of 't' from the beginning of the beam
+     * @param t
+     * @return
+     */
+    public Point getPoint(double t) {
         return getP0().add(getDir().scale(t));
     }
+
+    /**
+     * Receives a list of points and returns the point closest to the beginning of the fund
+     * @param pointList
+     * @return
+     */
+    public Point findClosestPoint(List<Point> pointList)
+    {
+        return null;
+    }
+
+
+
+
 }

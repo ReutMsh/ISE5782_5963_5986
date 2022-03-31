@@ -1,5 +1,8 @@
 package primitives;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import primitives.Point;
+import primitives.Vector;
 
 import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +24,7 @@ class PointTest {
 
         // ============ Equivalence Partitions Tests ==============
         //TC01 check subtract func
-        assertEquals(new Vector(1, 1, 1), (new Point(2, 3, 4).subtract(p1)), "ERROR: Point - Point does not work correctly");
+        Assertions.assertEquals(new Vector(1, 1, 1), (new Point(2, 3, 4).subtract(p1)), "ERROR: Point - Point does not work correctly");
 
         // =============== Boundary Values Tests ==================
         //TC11 check when subtract same point
