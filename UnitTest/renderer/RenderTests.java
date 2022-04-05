@@ -3,6 +3,8 @@ package renderer;
 
 import elements.AmbientLight;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 import primitives.Double3;
 
 //import lighting.AmbientLight;
@@ -10,6 +12,12 @@ import geometries.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Test rendering a basic image
@@ -52,6 +60,8 @@ public class RenderTests {
     @Test
     public void basicRenderXml() {
         Scene scene = new Scene("XML Test scene");
+
+
         // enter XML file name and parse from XML file into scene object
         // ...
 

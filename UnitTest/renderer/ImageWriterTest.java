@@ -39,7 +39,6 @@ class ImageWriterTest {
         }
     }
 
-
     /**
      * A test that tests simple image construction (without geometric shapes)
      * {@link ImageWriter#writePixel(int, int, Color)}

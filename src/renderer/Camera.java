@@ -119,7 +119,6 @@ public class Camera {
      */
     public Ray constructRay(int nX, int nY, int j, int i)
     {
-
         Point pCenterVP = p0.add(vTo.scale(distance));
         double rX = width/nX;
         double rY = height/nY;
@@ -147,7 +146,7 @@ public class Camera {
         {     throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "distance");}
         if(imageWriter == null)
         {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
-        if(rayTracer ==null)
+        if(rayTracer == null)
         {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
 
         // throw new  UnsupportedOperationException();
@@ -208,7 +207,6 @@ public class Camera {
 
         imageWriter.writeToImage();
     }
-
 
     //endregion
 }

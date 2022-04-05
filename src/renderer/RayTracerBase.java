@@ -23,7 +23,6 @@ public abstract class RayTracerBase  {
     }
     //endregion
 
-
     /**
      * abstract method
      * Find the color of the intersection point

@@ -5,7 +5,7 @@ import geometries.Geometries;
 import primitives.Color;
 
 /**
- * Class Scene
+ * PDS Class Scene
  *
  * @author Reut and Odelya
  */
