@@ -15,7 +15,7 @@ import static primitives.Util.*;
  * implements Geometry
  * @author Reut and odelya
  */
-public class Sphere implements Geometry{
+public class Sphere extends Geometry{
 
     private Point center;
     private double radius;
@@ -59,8 +59,9 @@ public class Sphere implements Geometry{
         return p1.subtract(center).normalize();
     }
 
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         double th;
         double tm;
 
@@ -88,9 +89,9 @@ public class Sphere implements Geometry{
 
         if (t1 <= 0 && t2 <= 0){return null;}
 
-        List<Point> list=new ArrayList<Point>();
-        if (t1 > 0) {list.add(ray.getPoint(t1));}
-        if (t2 > 0) {list.add(ray.getPoint(t2));}
+        List<GeoPoint> list=new ArrayList<GeoPoint>();
+        if (t1 > 0) {list.add(new GeoPoint(this , ray.getPoint(t1)));}
+        if (t2 > 0) {list.add(new GeoPoint(this , ray.getPoint(t2)));}
 
         return list;
     }

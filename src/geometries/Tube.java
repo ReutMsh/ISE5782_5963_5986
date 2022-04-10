@@ -12,7 +12,7 @@ import java.util.List;
  * implements Geometry
  * @author Reut and odelya
  */
-public class Tube implements Geometry{
+public class Tube extends Geometry{
 
     protected Ray axisRay;
     protected double radius;
@@ -58,8 +58,9 @@ public class Tube implements Geometry{
         return  p1.subtract(O).normalize();
     }
 
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
 

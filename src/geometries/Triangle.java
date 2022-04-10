@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.*;
@@ -34,13 +35,13 @@ public class Triangle extends Polygon{
                 '}';
     }
 
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
-
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         //check if the ray intersection the plan
-        List<Point> pointList = plane.findIntersections(ray);
+        List<Point> pointListFromPlane = plane.findIntersections(ray);
 
-        if(pointList == null) { return null; }
+        if(pointListFromPlane == null) { return null; }
 
         Vector v1= vertices.get(0).subtract(ray.getP0());
         Vector v2= vertices.get(1).subtract(ray.getP0());
@@ -55,8 +56,14 @@ public class Triangle extends Polygon{
         double vn3 = alignZero(ray.getDir().dotProduct(n3));
 
         if((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0))
-            return pointList;
+        {
+            List<GeoPoint> geoPointsTriangle = new ArrayList<GeoPoint>();
+            for (Point point: pointListFromPlane)
+            {
+                geoPointsTriangle.add(new GeoPoint(this , point));
+            }
+            return geoPointsTriangle;
+        }
         return null;
-
     }
 }

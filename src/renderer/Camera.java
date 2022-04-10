@@ -149,7 +149,6 @@ public class Camera {
         if(rayTracer == null)
         {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
 
-        // throw new  UnsupportedOperationException();
 
         //A loop that colors each pixel in a color that suits it
         for (int i =0; i<imageWriter.getNy(); i++)
@@ -165,6 +164,14 @@ public class Camera {
 
     }
 
+    /**
+     *Sliding and rotating transformation the camera
+     * only angle the geometry
+     */
+    public void moveCamera( float angle)
+    {
+
+    }
 
     /**
      * Creates a grid of lines on the image - Grid
@@ -208,5 +215,34 @@ public class Camera {
         imageWriter.writeToImage();
     }
 
+    /**
+    public int[][] CopyRotation(double angle)
+    {
+        double[][] matrixP = new double[3][3];
+        matrixP[0][0] = vUp.getX();
+        matrixP[1][0] = vUp.getY();
+        matrixP[2][0] = vUp.getZ();
+        matrixP[0][1] = vTo.getX();
+        matrixP[1][1] = vTo.getY();
+        matrixP[2][1] = vTo.getZ();
+        matrixP[0][2] = vRight.getX();
+        matrixP[1][2] = vRight.getY();
+        matrixP[2][2] = vRight.getZ();
+
+        double[][] matrixA= new double[3][3];
+        matrixP[0][0] = 1;
+        matrixP[1][0] = 0;
+        matrixP[2][0] = 0;
+        matrixP[0][1] = 0;
+        matrixP[1][1] = Math.cos(angle);
+        matrixP[2][1] = Math.sin(angle);
+        matrixP[0][2] = 0;
+        matrixP[1][2] = -Math.sin(angle);
+        matrixP[2][2] =  Math.cos(angle);
+
+
+
+    }
     //endregion
+     **/
 }

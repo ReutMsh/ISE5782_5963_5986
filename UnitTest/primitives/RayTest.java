@@ -37,10 +37,11 @@ class RayTest {
         // =============== Boundary Values Tests ==================
 
         //TC11 the list geometries is empty
-        pointList=new LinkedList<>();
+        pointList = null;
         assertNull(ray.findClosestPoint(pointList) ,"ERROR: the list is empty TC11" );
 
         //TC12 The last point is closest to the beginning of the foundation
+        pointList = new LinkedList<>();
         pointList.add(new Point(-2 , 0.4 , 0));//C
         pointList.add(new Point(-4, 2.81,0));//F
         pointList.add(new Point(-5 , 4 ,0));//B
