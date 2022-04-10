@@ -5,35 +5,29 @@ import primitives.Double3;
 
 /**
  * Class AmbientLight
- *
+ *extends from classes Light
  * @author Reut and Odelya
  */
-public class AmbientLight {
-
-    private Color intensity;
+public class AmbientLight extends Light {
 
     //region constructors
     /**
-     * constructor
+     * constructor (use super constructor)
      * @param iA
      * @param kA
      */
     public AmbientLight(Color iA  , Double3 kA) {
-        intensity = iA.scale(kA);
+        super(iA.scale(kA));
     }
 
     /**
-     * Default constructor
+     * Default constructor (use super constructor)
      */
     public AmbientLight() {
-        this.intensity = Color.BLACK;
+        super(Color.BLACK);
     }
     //endregion
 
-    //region get
-    public Color getIntensity() {
-        return intensity;
-    }
-    //endregion
+
 
 }

@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * findIntsersections with geometry
+ * abstract class Intersectable
+ * define all type of geometry
+ * @author Reut and odelya
  */
 public abstract class Intersectable {
 
     //region GeoPoint
 
     /**
-     * Static Internal Auxiliary Department
+     * Static Internal class
      * PDS
      */
     public static class GeoPoint {
