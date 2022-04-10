@@ -39,9 +39,7 @@ public class Point {
     public Double getY() {
         return xyz.d2;
     }
-    public Double getZ() {
-        return xyz.d3;
-    }
+    public Double getZ() { return xyz.d3;}
 //endregion
 
     @Override

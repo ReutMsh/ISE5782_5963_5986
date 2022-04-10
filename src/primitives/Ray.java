@@ -74,7 +74,4 @@ public class Ray {
         return null;
     }
 
-
-
-
 }

@@ -28,7 +28,7 @@ class CameraTest {
         assertEquals(new Ray(ZERO_POINT, new Vector(1, -1, -10)),
                 camera.setVPSize(8, 8).constructRay(4, 4, 1, 1), badRay);
 
-        // =============== Boundary Values Tests ==================
+       // =============== Boundary Values Tests ==================
         // BV01: 3X3 Center (1,1)
         assertEquals(new Ray(ZERO_POINT, new Vector(0, 0, -10)),
                 camera.setVPSize(6, 6).constructRay(3, 3, 1, 1), badRay);
@@ -52,6 +52,17 @@ class CameraTest {
         // BV06: 4X4 Side (0,1)
         assertEquals(new Ray(ZERO_POINT, new Vector(1, -3, -10)),
                 camera.setVPSize(8, 8).constructRay(4, 4, 1, 0), badRay);
+
+        //move camera
+
+        assertEquals(new Vector(-1,0,0), camera.moveAroundVUp(Math.toRadians(90)).getvTo(), "move camera around vUp test");
+        camera = camera.moveAroundVUp(Math.toRadians(270));
+
+        assertEquals(new Vector(0,-1,0), camera.moveAroundVTo(Math.toRadians(90)).getvRight(), "move camera around vTo test");
+        camera = camera.moveAroundVTo(Math.toRadians(270));
+
+        assertEquals(new Vector(0,0,-1), camera.moveAroundVRight(Math.toRadians(90)).getvUp(), "move camera around vRight test");
+
 
     }
 }

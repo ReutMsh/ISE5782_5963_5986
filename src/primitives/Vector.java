@@ -1,5 +1,7 @@
 package primitives;
+
 import static primitives.Double3.ZERO;
+import static primitives.Util.alignZero;
 
 /**
  * Class Vector define Vector
@@ -18,7 +20,7 @@ public class Vector extends Point{
      */
     public Vector(double x, double y, double z) {
         super(x,y,z);
-        if(xyz.equals(ZERO)){
+        if(xyz.equals(Double3.ZERO)){
             throw new IllegalArgumentException("ERROR: zero vector");}
     }
 
@@ -29,7 +31,7 @@ public class Vector extends Point{
      */
     public Vector(Double3 xyz) {
         super(xyz);
-        if(xyz.equals(ZERO)){
+        if(xyz.equals(Double3.ZERO)){
             throw new IllegalArgumentException("ERROR: zero vector");}
     }
 //endregion
@@ -99,9 +101,9 @@ public class Vector extends Point{
      * @return Vector
      */
     public Vector crossProduct(Vector v2) {
-        double d1 = xyz.d2*v2.xyz.d3 - xyz.d3*v2.xyz.d2;
-        double d2 = xyz.d3*v2.xyz.d1 - xyz.d1*v2.xyz.d3;
-        double d3 = xyz.d1*v2.xyz.d2 - xyz.d2*v2.xyz.d1;
+        double d1 =  alignZero(xyz.d2*v2.xyz.d3 - xyz.d3*v2.xyz.d2);
+        double d2 = alignZero(xyz.d3*v2.xyz.d1 - xyz.d1*v2.xyz.d3);
+        double d3 = alignZero(xyz.d1*v2.xyz.d2 - xyz.d2*v2.xyz.d1);
         return new Vector(d1,d2,d3);
     }
 
