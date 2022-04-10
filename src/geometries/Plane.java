@@ -15,7 +15,7 @@ import static primitives.Util.*;
  * implements Geometry
  * @author Reut and odelya
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     private Point q0;
     private Vector normal;
@@ -81,32 +81,35 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         //if the ray start in p0 - there isn't intersection
-        if(q0.equals(ray.getP0())) return null;
+        if(q0.equals(ray.getP0()))
+            return null;
 
         Vector qMinusP0 = q0.subtract(ray.getP0());
         double nQMinusP0 = normal.dotProduct(qMinusP0);
         double nv = normal.dotProduct(ray.getDir());
 
         //if v orthogonal to the normal- v parallel to the plan
-        if (isZero(nv)){return null;}
+        if (isZero(nv))
+        {return null;}
 
         double t = alignZero(nQMinusP0/nv);
 
         //there is intersection point
         if(t > 0d){
-            List<Point> list = new ArrayList<Point>();
-            list.add(ray.getPoint(t));
+            List<GeoPoint> list = new ArrayList<GeoPoint>();
+            list.add(new GeoPoint(this , ray.getPoint(t)));
             return list;
         }
 
         //if t <= 0 - the ray start after the plane
         return null;
     }
-}
 
     //endregion
+}
+
+
 
 

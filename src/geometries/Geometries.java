@@ -13,7 +13,7 @@ import java.util.List;
  * implements Intersectable
  * @author Reut and odelya
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     List<Intersectable> geometries;
 
@@ -32,14 +32,12 @@ public class Geometries implements Intersectable {
     //endregion
 
     //region method
-
     @Override
-    public List<Point> findIntersections(Ray ray) {
-
-        List<Point> listOfAllThePoint = new ArrayList<>();
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> listOfAllThePoint = new ArrayList<>();
 
         for (Intersectable geometry : geometries) {
-            List<Point> pointList = geometry.findIntersections(ray);
+            List<GeoPoint> pointList = geometry.findGeoIntersectionsHelper(ray);
             if (pointList == null) continue;
             listOfAllThePoint.addAll(pointList);
         }

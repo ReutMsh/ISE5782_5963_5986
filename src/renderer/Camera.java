@@ -150,7 +150,6 @@ public class Camera {
         if(rayTracer == null)
         {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
 
-        // throw new  UnsupportedOperationException();
 
         //A loop that colors each pixel in a color that suits it
         for (int i =0; i<imageWriter.getNy(); i++)
@@ -165,6 +164,7 @@ public class Camera {
 
 
     }
+
 
 
     /**
@@ -282,4 +282,5 @@ public class Camera {
     }
     //endregion
     //endregion
+
 }

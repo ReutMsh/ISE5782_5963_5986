@@ -2,6 +2,7 @@ package primitives;
 
 import java.util.List;
 import java.util.Objects;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * Class Ray define ray
@@ -65,13 +66,44 @@ public class Ray {
     }
 
     /**
-     * Receives a list of points and returns the point closest to the beginning of the fund
+     * Receives a list of points and returns the point
+     * closest to the beginning of the fund
      * @param pointList
      * @return
      */
     public Point findClosestPoint(List<Point> pointList)
     {
-        return null;
+        return pointList == null || pointList.isEmpty() ? null
+                : findClosestGeoPoint(pointList.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+
     }
+
+    /**
+     * Receives a list of GeoPoints and returns the GeoPoint
+     * closest to the beginning of the fund
+     * @param GeoPointList
+     * @return
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> GeoPointList)
+    {
+        if(GeoPointList == null)
+            return null;
+        GeoPoint closesPoint = GeoPointList.get(0);
+        double minDistanceSquared = closesPoint.point.distanceSquared(this.p0);
+        double distanceSquared;
+        for (GeoPoint geoPoint: GeoPointList)
+        {
+            distanceSquared = geoPoint.point.distanceSquared(this.p0);
+            if(distanceSquared < minDistanceSquared)
+            {
+                minDistanceSquared = distanceSquared;
+                closesPoint = geoPoint;
+            }
+
+        }
+        return closesPoint;
+    }
+
+
 
 }
