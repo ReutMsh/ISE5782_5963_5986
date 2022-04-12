@@ -40,8 +40,8 @@ public class RayTracerBasic extends RayTracerBase {
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
                 Color lightIntensity = lightSource.getIntensity(geoPointIntersection.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                color = color.add(calcDiffusive(kd, l, n, lightIntensity, nl),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity, nl));
             }
         }
         return color;
@@ -56,11 +56,10 @@ public class RayTracerBasic extends RayTracerBase {
      * @param lightIntensity
      * @return
      */
-    private Color calcDiffusive(Double3 kd, Vector l,Vector n, Color lightIntensity){
-        Double ln = l.dotProduct(n);
-        if(ln < 0 )
-            ln = -ln;
-        Double3 kdLn = kd.scale(ln);
+    private Color calcDiffusive(Double3 kd, Vector l,Vector n, Color lightIntensity, double nl){
+        if(nl < 0 )
+            nl = -nl;
+        Double3 kdLn = kd.scale(nl);
         return  lightIntensity.scale(kdLn);
     }
 
@@ -74,13 +73,17 @@ public class RayTracerBasic extends RayTracerBase {
      * @param lightIntensity
      * @return
      */
-    private Color calcSpecular(Double3 ks, Vector l,Vector n, Vector v, int nShininess, Color lightIntensity){
-        Vector r  = l.subtract(n.scale(l.dotProduct(n)).scale(2));
-        double max = Math.max(0, -v.dotProduct(r));
+    private Color calcSpecular(Double3 ks, Vector l,Vector n, Vector v, int nShininess, Color lightIntensity, double ln){
+        Vector r  = l.add(n.scale(ln*-2)).normalize();
+        double max = Math.max(0, (v.scale(-1)).dotProduct(r));
         double maxNs = Math.pow(max, nShininess);
+
         Double3 ksMaxNs = ks.scale(maxNs);
+
         return  lightIntensity.scale(ksMaxNs);
     }
+
+
     //endregion
 
     //region method

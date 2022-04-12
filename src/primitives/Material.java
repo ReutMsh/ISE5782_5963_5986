@@ -48,7 +48,7 @@ public class Material {
      * @return Material
      */
     public Material setKS(double doubleTokS) {
-        this.kS = kS;
+        this.kS = new Double3(doubleTokS);
         return this;
     }
 

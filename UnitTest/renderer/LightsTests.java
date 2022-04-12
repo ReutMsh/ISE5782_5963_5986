@@ -75,7 +75,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a sphere lighted by a spot light
+     * Produce a picture of a sphere lighted by a spotlight
      */
     @Test
     public void sphereSpot() {
@@ -83,6 +83,31 @@ public class LightsTests {
         scene1.lights.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setKL(0.001).setKQ(0.0001));
 
         ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
+        camera1.setImageWriter(imageWriter) //
+                .setRayTracer(new RayTracerBasic(scene1)) //
+                .renderImage(); //
+        camera1.writeToImage(); //
+    }
+
+    /**
+     * Produce a picture of a sphere lighted by a multi light
+     */
+    @Test
+    void testSphereMultiLight() {
+        scene1.geometries.add(sphere);
+        //green spot
+        Color spSLGSpot = new Color(377, 448, 367); // Sphere test Color of Light
+        scene1.lights.add(new SpotLight(spSLGSpot, spPL, new Vector(1, 1, -0.5)).setKL(0.001).setKQ(0.0001));
+        //purple spot
+        Color spSLPSpot = new Color(364, 0, 364); // Sphere test Color of Light
+        scene1.lights.add(new SpotLight(spSLPSpot, new Point(0, -100, 5), new Vector(-11.25, 51.28, -55)).setKL(0.001).setKQ(0.0001));
+        //red point
+        scene1.lights.add(new PointLight(new Color(464, 1000, 528), new Point(0, 60, 50)).setKL(0.001).setKQ(0.0002));
+
+        //orange direct
+        scene1.lights.add(new DirectionalLight(new Color(255, 128, 0), new Vector(47, 17, 139)));
+
+        ImageWriter imageWriter = new ImageWriter("lightSphereMultiLight", 500, 500);
         camera1.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene1)) //
                 .renderImage(); //
@@ -128,6 +153,29 @@ public class LightsTests {
         scene2.lights.add(new SpotLight(trCL, trPL, trDL).setKL(0.001).setKQ(0.0001));
 
         ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 500, 500);
+        camera2.setImageWriter(imageWriter) //
+                .setRayTracer(new RayTracerBasic(scene2)) //
+                .renderImage(); //
+        camera2.writeToImage(); //
+    }
+
+    @Test
+    void testTriangleMultiLight() {
+        scene2.geometries.add(triangle1, triangle2);
+
+        //green spot
+        Color spSLGSpot = new Color(377, 448, 367); // Sphere test Color of Light
+        scene2.lights.add(new SpotLight(spSLGSpot, spPL, new Vector(1, 1, -0.5)).setKL(0.001).setKQ(0.0001));
+        //purple spot
+        Color spSLPSpot = new Color(364, 0, 364); // Sphere test Color of Light
+        scene2.lights.add(new SpotLight(spSLPSpot, new Point(0, -100, 5), new Vector(-11.25, 51.28, -55)).setKL(0.001).setKQ(0.0001));
+        //red point
+        scene2.lights.add(new PointLight(new Color(464, 1000, 528), new Point(0, 60, 50)).setKL(0.001).setKQ(0.0002));
+
+        //orange direct
+        scene2.lights.add(new DirectionalLight(new Color(255, 128, 0), new Vector(47, 17, 139)));
+
+        ImageWriter imageWriter = new ImageWriter("lightTriangleMultiLight", 500, 500);
         camera2.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene2)) //
                 .renderImage(); //
