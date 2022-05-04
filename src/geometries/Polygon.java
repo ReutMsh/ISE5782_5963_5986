@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.*;
@@ -92,6 +93,58 @@ public class Polygon extends Geometry {
 
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		//check if the ray intersection the plan
+		List<Point> pointListFromPlane = plane.findIntersections(ray);
+
+		if(pointListFromPlane == null) { return null; }
+
+		//p= intersection point with the plan
+		Point p = pointListFromPlane.get(0);
+
+		//if the point on one of Vertex -> return null
+		for (Point point:vertices) {
+			if(p.equals(point))
+				return null;
+		}
+		List<Vector> vectorToCheckDirection = new ArrayList<>();
+
+		for (int i = 1; i < this.size; i++){
+			Vector v1 = vertices.get(i).subtract(vertices.get(i-1)).normalize();
+			Vector v2 = vertices.get(i-1).subtract(p).normalize();
+
+			//if v1==v2-> the point on one of the edge or edge's continuation -> return null
+			if(v1.equals(v2.scale(-1)) || v1.equals(v2))
+				return null;
+			vectorToCheckDirection.add(v1.crossProduct(v2));
+		}
+		Vector v1 = vertices.get(0).subtract(vertices.get(size-1));
+		Vector v2 = vertices.get(size-1).subtract(p);
+		vectorToCheckDirection.add(v1.crossProduct(v2));
+
+		if (checkTheVectorsDirection(vectorToCheckDirection)){
+			List<GeoPoint> geoPointsPolygon = new ArrayList<GeoPoint>();
+			for (Point point: pointListFromPlane)
+			{
+				geoPointsPolygon.add(new GeoPoint(this , point));
+			}
+			return geoPointsPolygon;
+		}
 		return null;
 	}
+
+	//region help method
+
+	/**
+	 * return if all the vectors in the same direction
+	 * @param vectorToCheckDirection
+	 * @return boolean
+	 */
+	private boolean checkTheVectorsDirection(List<Vector> vectorToCheckDirection){
+		for (Vector vector:vectorToCheckDirection) {
+			if(vectorToCheckDirection.get(0).dotProduct(vector)<0)
+				return false;
+		}
+		return true;
+	}
+	//endregion
 }

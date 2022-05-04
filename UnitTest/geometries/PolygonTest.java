@@ -1,6 +1,7 @@
 package geometries;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,5 +68,56 @@ class PolygonTest {
         Polygon pl = new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1));
         double sqrt3 = Math.sqrt(1d / 3);
         assertEquals(new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point(0, 0, 1)), "Bad normal to triangle");
+    }
+
+    /**
+     * Test method for {@link geometries.Polygon#findIntersections(Ray)}}.
+     */
+    @Test
+    void testFindIntersections() {
+        //polygon with vertices: a,b,c,d
+        Polygon polygon = new Polygon(new Point(-20,0,0), new Point(0,0,50), new Point(40,0,0), new Point(0,0,-50));
+
+        Ray ray = new Ray(new Point(0,-20,0), new Vector(10, 20, 0));
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: the point inside the polygon
+        //אם מוחזר null
+        assertEquals(polygon.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the polygon " +
+                "when the point Inside the polygon");
+
+        assertEquals(polygon.findIntersections(ray).get(0), new Point(10,0,0), "ERROR: Wrong number of points intersects the polygon " +
+                "when the point Inside the polygon");
+
+        //TC02: the point outside against edge
+        ray = new Ray(new Point(0,-20,0), new Vector(60,20,20));
+
+        //אם מוחזר null
+        assertNull(polygon.findIntersections(ray), "ERROR: Wrong number of points intersects the polygon " +
+                "when the point outside against edge the polygon");
+
+
+        //TC03: the point outside against vertex
+        ray = new Ray(new Point(0,-20,0), new Vector(50,20,0));
+        //אם מוחזר null
+        assertNull(polygon.findIntersections(ray), "ERROR: Wrong number of points intersects the polygon " +
+                "when the point outside against vertex the polygon");
+
+
+        // =============== Boundary Values Tests ==================
+        //TC11: the point on edge of the polygon
+        ray =new Ray(new Point(0,-20,0), new Vector(15,20,31.25));
+        assertNull(polygon.findIntersections(ray),"ERROR: Wrong number of points intersects the polygon " +
+                "when the point on edge of the polygon");
+
+        //TC12: the point in vertex of the polygon
+        ray = new Ray(new Point(0,-20,0), new Vector(0,20,50));
+        assertNull(polygon.findIntersections(ray),"ERROR: Wrong number of points intersects the polygon " +
+                "when the point in vertex of the polygon");
+
+        //TC13: the point on edge's continuation
+        ray = new Ray(new Point(0,-20,0), new Vector(9,20,72.5));
+        assertNull(polygon.findIntersections(ray),"ERROR: Wrong number of points intersects the polygon " +
+                "when the point on edge's continuation");
+
     }
 }
