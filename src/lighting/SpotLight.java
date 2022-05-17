@@ -34,4 +34,5 @@ public class SpotLight extends PointLight{
         double maxDir = Math.max(0,direction.dotProduct(getL(p)));
         return super.getIntensity(p).scale(maxDir);
     }
+
 }

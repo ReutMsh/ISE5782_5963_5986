@@ -63,7 +63,7 @@ public abstract class Intersectable {
      */
     public final List<Point> findIntersections(Ray ray)
     {
-        List<GeoPoint> geoList = findGeoIntersections(ray);
+        List<GeoPoint> geoList = findGeoIntersections(ray , Double.POSITIVE_INFINITY);
         return geoList == null ? null
                 : geoList.stream().map(gp -> gp.point). toList();
     }
@@ -71,21 +71,23 @@ public abstract class Intersectable {
     /**
      * find list of GeoPoint that the geometry
      * cut with the ray
+     * and the distance between p0 and point < maxDistance
      * NVI
      * @param ray
-     * @return
+     * @param maxDistance
+     * @return List<GeoPoint>
      */
-    public final List<GeoPoint> findGeoIntersections(Ray ray)
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance)
     {
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
      * Abstract internal method for finding a point of intersection with geometries
-     *
+     * and the distance between p0 and point < maxDistance
      * @param ray
-     * @return
+     * @param maxDistance
+     * @return List<GeoPoint>
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 }

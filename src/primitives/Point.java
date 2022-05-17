@@ -33,13 +33,13 @@ public class Point {
 //endregion
 
     //region getter
-    public Double getX() {
+    public double getX() {
         return xyz.d1;
     }
-    public Double getY() {
+    public double getY() {
         return xyz.d2;
     }
-    public Double getZ() { return xyz.d3;}
+    public double getZ() { return xyz.d3;}
 //endregion
 
     @Override

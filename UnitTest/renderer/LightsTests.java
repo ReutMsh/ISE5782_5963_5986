@@ -40,6 +40,10 @@ public class LightsTests {
     private Material material = new Material().setKD(0.5).setKS(0.5).setNShininess(300);
     private Geometry triangle1 = new Triangle(p[0], p[1], p[2]).setMaterial(material);
     private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
+
+    private Geometry polygon1 = new Polygon(p[0], p[1], p[2]).setMaterial(material);
+    private Geometry polygon2 = new Polygon(p[0], p[1], p[3]).setMaterial(material);
+
     private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
             .setEmission(new Color(BLUE).reduce(2)) //
             .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(300));
@@ -123,6 +127,18 @@ public class LightsTests {
         scene2.lights.add(new DirectionalLight(trCL, trDL));
 
         ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 500, 500);
+        camera2.setImageWriter(imageWriter) //
+                .setRayTracer(new RayTracerBasic(scene2)) //
+                .renderImage(); //
+        camera2.writeToImage(); //
+    }
+
+    @Test
+    public void polygonsDirectional() {
+        scene2.geometries.add(polygon1, polygon2);
+        scene2.lights.add(new DirectionalLight(trCL, trDL));
+
+        ImageWriter imageWriter = new ImageWriter("lightPolygonsDirectional", 500, 500);
         camera2.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene2)) //
                 .renderImage(); //
@@ -213,5 +229,16 @@ public class LightsTests {
         camera2.writeToImage(); //
     }
 
+    @Test
+    public void polygonsSpotSharp() {
+        scene2.geometries.add(polygon1, polygon2);
+        scene2.lights.add(new SpotLight(trCL, trPL, trDL)/*.setNarrowBeam(10)*/.setKL(0.001).setKQ(0.00004));
+
+        ImageWriter imageWriter = new ImageWriter("lightPolygonsSpotSharp", 500, 500);
+        camera2.setImageWriter(imageWriter) //
+                .setRayTracer(new RayTracerBasic(scene2)) //
+                .renderImage(); //
+        camera2.writeToImage(); //
+    }
 }
 

@@ -105,4 +105,12 @@ class PlaneTest {
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
                 "when the ray is neither orthogonal nor parallel to and begins in the same point which appears as reference point in the plane");
     }
+
+    /**
+     * Test method for {@link geometries.Plane#findGeoIntersectionsHelper(Ray, double)}.
+     */
+    @Test
+    void testFindGeoIntersectionsHelper() {
+
+    }
 }

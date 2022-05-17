@@ -37,11 +37,11 @@ public class Triangle extends Polygon{
 
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //check if the ray intersection the plan
-        List<Point> pointListFromPlane = plane.findIntersections(ray);
+        List<GeoPoint> geoPointListFromPlane = plane.findGeoIntersections(ray, maxDistance);
 
-        if(pointListFromPlane == null) { return null; }
+        if(geoPointListFromPlane == null) { return null; }
 
         Vector v1= vertices.get(0).subtract(ray.getP0());
         Vector v2= vertices.get(1).subtract(ray.getP0());
@@ -58,9 +58,9 @@ public class Triangle extends Polygon{
         if((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0))
         {
             List<GeoPoint> geoPointsTriangle = new ArrayList<GeoPoint>();
-            for (Point point: pointListFromPlane)
+            for (GeoPoint geoPoint: geoPointListFromPlane)
             {
-                geoPointsTriangle.add(new GeoPoint(this , point));
+                geoPointsTriangle.add(new GeoPoint(this , geoPoint.point));
             }
             return geoPointsTriangle;
         }

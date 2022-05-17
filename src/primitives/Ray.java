@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import geometries.Intersectable.GeoPoint;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * Class Ray define ray
  * with normalise vector and point
@@ -62,7 +65,12 @@ public class Ray {
      * @return
      */
     public Point getPoint(double t) {
-        return getP0().add(getDir().scale(t));
+        try {
+            return p0.add(dir.scale(t));
+        }
+        catch (Exception e){
+            return p0;
+        }
     }
 
     /**

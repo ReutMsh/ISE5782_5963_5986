@@ -52,6 +52,7 @@ public class Polygon extends Geometry {
 		// polygon with this plane.
 		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
 		plane = new Plane(vertices[0], vertices[1], vertices[2]);
+		size = vertices.length;
 		if (vertices.length == 3)
 			return; // no need for more tests for a Triangle
 
@@ -82,7 +83,6 @@ public class Polygon extends Geometry {
 			if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
 				throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
 		}
-		size = vertices.length;
 	}
 
 	@Override
@@ -92,25 +92,25 @@ public class Polygon extends Geometry {
 
 
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		//check if the ray intersection the plan
-		List<Point> pointListFromPlane = plane.findIntersections(ray);
+		List<GeoPoint> geoPointListFromPlane = plane.findGeoIntersectionsHelper(ray, maxDistance);
 
-		if(pointListFromPlane == null) { return null; }
+		if(geoPointListFromPlane == null) { return null; }
 
 		//p= intersection point with the plan
-		Point p = pointListFromPlane.get(0);
+		GeoPoint p = geoPointListFromPlane.get(0);
 
 		//if the point on one of Vertex -> return null
 		for (Point point:vertices) {
-			if(p.equals(point))
+			if(p.point.equals(point))
 				return null;
 		}
 		List<Vector> vectorToCheckDirection = new ArrayList<>();
 
 		for (int i = 1; i < this.size; i++){
 			Vector v1 = vertices.get(i).subtract(vertices.get(i-1)).normalize();
-			Vector v2 = vertices.get(i-1).subtract(p).normalize();
+			Vector v2 = vertices.get(i-1).subtract(p.point).normalize();
 
 			//if v1==v2-> the point on one of the edge or edge's continuation -> return null
 			if(v1.equals(v2.scale(-1)) || v1.equals(v2))
@@ -118,14 +118,14 @@ public class Polygon extends Geometry {
 			vectorToCheckDirection.add(v1.crossProduct(v2));
 		}
 		Vector v1 = vertices.get(0).subtract(vertices.get(size-1));
-		Vector v2 = vertices.get(size-1).subtract(p);
+		Vector v2 = vertices.get(size-1).subtract(p.point);
 		vectorToCheckDirection.add(v1.crossProduct(v2));
 
 		if (checkTheVectorsDirection(vectorToCheckDirection)){
 			List<GeoPoint> geoPointsPolygon = new ArrayList<GeoPoint>();
-			for (Point point: pointListFromPlane)
+			for (GeoPoint geoPoint: geoPointListFromPlane)
 			{
-				geoPointsPolygon.add(new GeoPoint(this , point));
+				geoPointsPolygon.add(new GeoPoint(this , geoPoint.point));
 			}
 			return geoPointsPolygon;
 		}
