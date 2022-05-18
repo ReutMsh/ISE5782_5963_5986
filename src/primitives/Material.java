@@ -9,6 +9,15 @@ public class Material {
     public Double3 kD = Double3.ZERO;
     public Double3 kS = Double3.ZERO;
     public int nShininess = 0;
+    /**
+     * Promotes transparency
+     */
+    public Double3 kT = Double3.ZERO;
+
+    /**
+     * Coefficient of reflection
+     */
+    public Double3 kR = Double3.ZERO;
 
     //region setters
 
@@ -63,7 +72,26 @@ public class Material {
         return this;
     }
 
+    /**
+     * set kT
+     * @param kT
+     * @return Material
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * set kR
+     * @param kR
+     * @return Material
+     */
+    public Material setKR(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
     //endregion
 
-    //region
+
 }

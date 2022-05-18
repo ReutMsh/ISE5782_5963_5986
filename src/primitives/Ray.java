@@ -16,6 +16,11 @@ public class Ray {
     private final Point p0;
     private final Vector dir;
 
+    /**
+     *fixed for moving the beginning of the rays. Of shading rays
+     */
+    private static final double DELTA = 0.1;
+
     //region constructor
 
     /**
@@ -29,6 +34,12 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+
+    public Ray(Point head, Vector direction, Vector n) {
+        p0 = head.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
+        dir = direction;
+    }
+
     //endregion
 
     //region get
@@ -111,4 +122,5 @@ public class Ray {
         }
         return closesPoint;
     }
+
 }
