@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import primitives.*;
@@ -117,8 +118,11 @@ public class Polygon extends Geometry {
 				return null;
 			vectorToCheckDirection.add(v1.crossProduct(v2));
 		}
-		Vector v1 = vertices.get(0).subtract(vertices.get(size-1));
-		Vector v2 = vertices.get(size-1).subtract(p.point);
+		Vector v1 = vertices.get(0).subtract(vertices.get(size-1)).normalize();
+		Vector v2 = vertices.get(size-1).subtract(p.point).normalize();
+		//if v1==v2-> the point on one of the edge or edge's continuation -> return null
+		if(v1.equals(v2.scale(-1)) || v1.equals(v2))
+			return null;
 		vectorToCheckDirection.add(v1.crossProduct(v2));
 
 		if (checkTheVectorsDirection(vectorToCheckDirection)){
@@ -146,5 +150,8 @@ public class Polygon extends Geometry {
 		}
 		return true;
 	}
+
 	//endregion
+
+
 }

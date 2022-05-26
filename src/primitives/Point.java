@@ -93,5 +93,20 @@ public class Point {
     public double distance (Point p1){
         return Math.sqrt(this.distanceSquared(p1));
     }
+
+    /**
+     *Finding a point that is at a distance of 't' from the point in the direction of a specific vector.
+     * @param direction
+     * @param t
+     * @return Point
+     */
+    public Point getPoint(Vector direction , double t) {
+        try {
+            return this.add(direction.scale(t));
+        }
+        catch (Exception e){
+            return this;
+        }
+    }
     //endregion
 }

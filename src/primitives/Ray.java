@@ -71,7 +71,7 @@ public class Ray {
     }
 
     /**
-     *Finding a point that is at a distance of 't' from the beginning of the beam
+     *Finding a point that is at a distance of 't' from the beginning of the ray
      * @param t
      * @return
      */
