@@ -1,5 +1,9 @@
 package primitives;
 
+import java.util.Objects;
+
+import static primitives.Util.isZero;
+
 /**
  * Wrapper class for java.jwt.Color The constructors operate with any
  * non-negative RGB values. The colors are maintained without upper limit of
@@ -141,5 +145,21 @@ public class Color {
             throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
         return new Color(rgb.d1 / k.d1, rgb.d2 / k.d2, rgb.d3 / k.d3);
     }
+
+    /**
+     *check if the two color almost same
+     * (until difference of 3)
+     * @param color
+     * @return
+     */
+    public boolean isClosesColor(Color color) {
+        return ((rgb.d1 - color.rgb.d1) < 3 && (rgb.d1 - color.rgb.d1) > -3) && //
+                ((rgb.d2 - color.rgb.d2) < 3 && (rgb.d2 - color.rgb.d2) > -3) &&//
+                ((rgb.d3 - color.rgb.d3) < 3 && (rgb.d3 - color.rgb.d3) > -3);
+
+    }
+
+
+
 
 }

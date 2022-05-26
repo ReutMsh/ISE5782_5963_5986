@@ -10,13 +10,6 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import static java.awt.Color.BLUE;
-import static java.awt.Color.white;
-
 public class StandTest {
 
     private Scene scene = new Scene("Test scene");
@@ -42,25 +35,23 @@ public class StandTest {
 
     @Test
     void testBuildStand() {
-        Geometries stand1 = BuildStand(new Point(100,25,0), new Point(100,-25,0), //
-                 new Point(100,-25,140), new Point(100,0,140), standMaterial, standColor);
+        ShapesScene stand1 = new ShapesScene(new Point(100,25,0), new Point(100,-25,0), //
+                new Point(100,-25,140), new Point(100,0,140), standMaterial, standColor);
 
-        Geometries stand2 = BuildStand(new Point(-100,25,0), new Point(-100,-25,0), //
+        ShapesScene stand2 = new ShapesScene(new Point(-100,25,0), new Point(-100,-25,0), //
                 new Point(-100,-25,140), new Point(-100,0,140), standMaterial, standColor);
 
-        scene.geometries.add(new Sphere(new Point(0, 0, 200), 30d).setEmission(new Color(white)) //
-                .setMaterial(new Material().setKD(0.2).setKS(0.2).setNShininess(30).setKT(new Double3(0.4))));
+        //scene.geometries.add(new Sphere(new Point(0,0,200), 25).setEmission(new Color(white)) //
+             //   .setMaterial(new Material().setKD(0.2).setKS(0.2).setNShininess(30).setKT(new Double3(0.6))));
 
         scene.geometries.add(new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0,0,0))//
                .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)));
         scene.geometries.add(stand1, stand2);
 
-        //scene.lights.add(new SpotLight(spCL, spPL, new Vector(130, -100, -80)).setKL(0.001).setKQ(0.0001));
         scene.lights.add(new SpotLight(spCL, new Point(-100,100,150), new Vector(130, -100, -80)).setKL(0.001).setKQ(0.0001));
         scene.lights.add(new PointLight(spCL,spPL).setKL(0.05).setKQ(0.0001));
-        //scene.lights.add(new PointLight(spCL,new Point(0,100,150)).setKL(0.05).setKQ(0.0001));
-        scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(0, 0, 200), new Vector(0, 0, -1)) //
-                .setKL(4E-5).setKQ(2E-7));
+        scene.lights.add(new PointLight(spCL, new Point(0,0,200)).setKL(0.05));
+
         ImageWriter imageWriter = new ImageWriter("stand test", 500, 500);
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
@@ -68,42 +59,5 @@ public class StandTest {
         camera.writeToImage(); //
     }
 
-    //region build scene
 
-    /**
-     * build one stand of the game
-     * return list of polygons
-     * @param frontDown
-     * @param hindDown
-     * @param hindUp
-     * @param frontUp
-     * @param material
-     * @param color
-     * @return List<Intersectable>
-     */
-    private Geometries BuildStand(Point frontDown, Point hindDown, Point hindUp, Point frontUp, Material material, Color color){
-        Geometries stand = new Geometries();
-
-        Polygon wall = new Polygon(frontDown, hindDown, hindUp, frontUp);
-        //build normal
-        Vector normal = wall.getNormal(frontDown);
-        //find all point
-        Point frontDown2 = frontDown.getPoint(normal, 15);
-        Point hindDown2 = hindDown.getPoint(normal, 15);
-        Point hindUp2 = hindUp.getPoint(normal, 15);
-        Point frontUp2 = frontUp.getPoint(normal, 15);
-        //2 wall
-        stand.add(wall.setEmission(color).setMaterial(material));
-        stand.add(new Polygon(frontDown2, hindDown2, hindUp2, frontUp2).setEmission(color).setMaterial(material));
-        //base and top
-        stand.add(new Polygon(frontDown, frontDown2, hindDown2, hindDown).setEmission(color).setMaterial(material));
-        stand.add(new Polygon(frontUp, frontUp2, hindUp2, hindUp).setEmission(color).setMaterial(material));
-        //front and hind
-        stand.add(new Polygon(frontDown, frontDown2, frontUp2, frontUp).setEmission(color).setMaterial(material));
-        stand.add(new Polygon(hindDown, hindDown2, hindUp2, hindUp).setEmission(color).setMaterial(material));
-
-        return stand;
-    }
-
-    //endregion
 }

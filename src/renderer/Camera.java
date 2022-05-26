@@ -5,10 +5,11 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 
-import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 /**
  * Class Camera
@@ -110,6 +111,7 @@ public class Camera {
     //endregion
 
     //region methods
+
     /**
      * build ray from the camera to center pixel desired
      * @param nX
@@ -165,7 +167,88 @@ public class Camera {
 
     }
 
+    /**
+     * Check the field values - that they are not empty
+     * For each pixel we get the appropriate color by sending a ray
+     * check about countRay random rays
+     * if the color different-> check countRay^2 random rays
+     */
+    public void renderImage(int countRay)
+    {
+        if( width == 0 )
+        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,  "width");}
+        if( height == 0)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,"height");}
+        if(distance == 0)
+        {     throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "distance");}
+        if(imageWriter == null)
+        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
+        if(rayTracer == null)
+        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
 
+
+        //A loop that colors each pixel in a color that suits it
+        for (int i =0; i<imageWriter.getNy(); i++)
+        {
+            for (int j =0; j<imageWriter.getNx(); j++)
+            {
+                List<Ray> raysPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i ,countRay);
+                Color colorPixel= rayTracer.traceRay(raysPixel);
+
+                if(!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
+                    raysPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i ,countRay*countRay);
+                    colorPixel= rayTracer.traceRay(raysPixel);
+                }
+
+
+                imageWriter.writePixel(j, i, colorPixel);
+            }
+        }
+
+    }
+
+    //region Anti-Aliasing
+
+    /**
+     * build list of rays from the camera to random point in pixel desired.
+     * @param nX
+     * @param nY
+     * @param j
+     * @param i
+     * @param countRay
+     * @return
+     */
+    private List<Ray> constructRay(int nX, int nY, int j, int i, int countRay){
+        List<Ray> rayList = new ArrayList<>();
+        Point pCenterVP = p0.add(vTo.scale(distance));
+        double rX = width/nX;
+        double rY = height/nY;
+        double xJ = (j - (nX-1)/2d)*rX;
+        double yI = -(i - (nY-1)/2d)*rY;
+
+        Point pCenterPixel = pCenterVP;
+        if(!isZero(xJ)) { pCenterPixel = pCenterPixel.add(vRight.scale(xJ));}
+        if(!isZero(yI)) {pCenterPixel = pCenterPixel.add(vUp.scale(yI));}
+
+        rayList.add(new Ray(p0, pCenterPixel.subtract(p0)));
+
+        double minX = -rX/2;
+        double maxX  = rX/2;
+        double minY = -rY/2;
+        double maxY = rY/2;
+
+        for (int k = 1; k < countRay; k++) {
+            double moveX = random(minX, maxX);
+            double moveY = random(minY, maxY);
+            Point movePoint = pCenterPixel;
+            if(!isZero(moveX)) { movePoint = movePoint.add(vRight.scale(moveX));}
+            if(!isZero(moveY)) {movePoint = movePoint.add(vUp.scale(moveY));}
+            rayList.add(new Ray(p0, movePoint.subtract(p0)));
+        }
+        return rayList;
+    }
+
+    //endregion
 
     /**
      * Creates a grid of lines on the image - Grid
