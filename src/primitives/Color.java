@@ -1,8 +1,5 @@
 package primitives;
 
-import java.util.Objects;
-
-import static primitives.Util.isZero;
 
 /**
  * Wrapper class for java.jwt.Color The constructors operate with any
@@ -13,6 +10,8 @@ import static primitives.Util.isZero;
  * @author Dan Zilberstein
  */
 public class Color {
+    private final static double DIFFERENT_COLOR = 0;
+
     /**
      * The internal fields tx`o maintain RGB components as double numbers from 0 to
      * whatever...
@@ -153,9 +152,9 @@ public class Color {
      * @return
      */
     public boolean isClosesColor(Color color) {
-        return ((rgb.d1 - color.rgb.d1) < 3 && (rgb.d1 - color.rgb.d1) > -3) && //
-                ((rgb.d2 - color.rgb.d2) < 3 && (rgb.d2 - color.rgb.d2) > -3) &&//
-                ((rgb.d3 - color.rgb.d3) < 3 && (rgb.d3 - color.rgb.d3) > -3);
+        return ((rgb.d1 - color.rgb.d1) < DIFFERENT_COLOR && (rgb.d1 - color.rgb.d1) > -DIFFERENT_COLOR) && //
+                ((rgb.d2 - color.rgb.d2) < DIFFERENT_COLOR && (rgb.d2 - color.rgb.d2) > -DIFFERENT_COLOR) &&//
+                ((rgb.d3 - color.rgb.d3) < DIFFERENT_COLOR && (rgb.d3 - color.rgb.d3) > -DIFFERENT_COLOR);
 
     }
 

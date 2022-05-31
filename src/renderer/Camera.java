@@ -167,7 +167,12 @@ public class Camera {
 
     }
 
+
+
+    //region Anti-Aliasing
+
     /**
+     * for Anti-Aliasing
      * Check the field values - that they are not empty
      * For each pixel we get the appropriate color by sending a ray
      * check about countRay random rays
@@ -207,9 +212,8 @@ public class Camera {
 
     }
 
-    //region Anti-Aliasing
-
     /**
+     * for Anti-Aliasing
      * build list of rays from the camera to random point in pixel desired.
      * @param nX
      * @param nY
@@ -232,19 +236,9 @@ public class Camera {
 
         rayList.add(new Ray(p0, pCenterPixel.subtract(p0)));
 
-        double minX = -rX/2;
-        double maxX  = rX/2;
-        double minY = -rY/2;
-        double maxY = rY/2;
+        MultipleRay multipleRay = new MultipleRay(vRight, vUp, pCenterPixel, rX, rY, countRay);
+        rayList.addAll(multipleRay.constructMultipleRay(p0));
 
-        for (int k = 1; k < countRay; k++) {
-            double moveX = random(minX, maxX);
-            double moveY = random(minY, maxY);
-            Point movePoint = pCenterPixel;
-            if(!isZero(moveX)) { movePoint = movePoint.add(vRight.scale(moveX));}
-            if(!isZero(moveY)) {movePoint = movePoint.add(vUp.scale(moveY));}
-            rayList.add(new Ray(p0, movePoint.subtract(p0)));
-        }
         return rayList;
     }
 

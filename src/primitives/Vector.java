@@ -114,6 +114,21 @@ public class Vector extends Point{
     public Vector normalize() {
         return new Vector(xyz.reduce(this.length()));
     }
+
+    /**
+     * return min between d1,d2,d3
+     * @return double
+     */
+    public Vector minD(){
+        double min = xyz.d1;
+        if (xyz.d1 < xyz.d2 && xyz.d1 < xyz.d3)
+            return new Vector(0, xyz.d3, -xyz.d2);
+        if (xyz.d2 < xyz.d1 && xyz.d2 < xyz.d3)
+            return new Vector(xyz.d3, 0, -xyz.d1);
+
+        return new Vector(xyz.d3, 0, -xyz.d1);
+
+    }
     //endregion
 
 }

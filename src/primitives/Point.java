@@ -108,5 +108,14 @@ public class Point {
             return this;
         }
     }
+
+
+    private static final double DELTA = 0.1;
+
+    public Point addDeltaPoint(Vector direction, Vector n) {
+        return this.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
+    }
+
+
     //endregion
 }

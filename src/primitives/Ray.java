@@ -40,6 +40,8 @@ public class Ray {
         dir = direction;
     }
 
+
+
     //endregion
 
     //region get
@@ -83,6 +85,8 @@ public class Ray {
             return p0;
         }
     }
+
+
 
     /**
      * Receives a list of points and returns the point
