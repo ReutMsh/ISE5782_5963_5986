@@ -1,7 +1,6 @@
 package geometries;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import primitives.*;
@@ -11,7 +10,7 @@ import static primitives.Util.*;
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
  * 
- * @author Dan
+ * @author Dan Zilberstein
  */
 public class Polygon extends Geometry {
 	/**
@@ -90,6 +89,8 @@ public class Polygon extends Geometry {
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
 	}
+
+
 
 
 	@Override

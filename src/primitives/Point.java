@@ -5,11 +5,16 @@ import static primitives.Double3.ZERO;
 /**
  * Class Point define point
  * with double3
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Point {
 
     public static final Point ZERO = new Point(0,0,0);
+    /**
+     * Move the point in DELTA size
+     */
+    private static final double DELTA = 0.1;
+
     Double3 xyz;
 
     //region constructor
@@ -30,7 +35,7 @@ public class Point {
     public Point(Double3 xyz) {
         this.xyz = xyz;
     }
-//endregion
+    //endregion
 
     //region getter
     public double getX() {
@@ -40,7 +45,7 @@ public class Point {
         return xyz.d2;
     }
     public double getZ() { return xyz.d3;}
-//endregion
+    //endregion
 
     @Override
     public boolean equals(Object o) {
@@ -56,6 +61,7 @@ public class Point {
     }
 
     //region methods
+
     /**
      * build vector with 2 points
      * @param p1
@@ -109,9 +115,12 @@ public class Point {
         }
     }
 
-
-    private static final double DELTA = 0.1;
-
+    /**
+     * Move the point in DELTA size and in the direction of Vector
+     * @param direction
+     * @param n
+     * @return Point
+     */
     public Point addDeltaPoint(Vector direction, Vector n) {
         return this.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
     }

@@ -3,17 +3,15 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static primitives.Util.*;
 
 /**
  * class Plane
  * define plane with point and normal vector
- * implements Geometry
- * @author Reut and odelya
+ * extends Geometry
+ * @author Reut and Odelya
  */
 public class Plane extends Geometry {
 
@@ -54,7 +52,7 @@ public class Plane extends Geometry {
             throw new IllegalArgumentException("the 3 point can't build a plan");
         }
     }
-//endregion
+    //endregion
 
     //region getter
     public Point getQ0() {

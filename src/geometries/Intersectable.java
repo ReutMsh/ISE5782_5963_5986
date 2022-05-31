@@ -3,16 +3,15 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * abstract class Intersectable
  * define all type of geometry
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public abstract class Intersectable {
 
-    //region GeoPoint
+    //region class GeoPoint
 
     /**
      * Static Internal class
@@ -24,7 +23,6 @@ public abstract class Intersectable {
 
         /**
          * constructor
-         *
          * @param geometry
          * @param point
          */
@@ -54,10 +52,10 @@ public abstract class Intersectable {
     }
     //endregion
 
+    //region methods
     /**
      * Abstract method - find list of point that the geometry
      * cut with the ray
-     *
      * @param ray
      * @return List<Point>
      */
@@ -90,5 +88,5 @@ public abstract class Intersectable {
      * @return List<GeoPoint>
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
-
+    //endregion
 }

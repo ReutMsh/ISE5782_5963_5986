@@ -2,12 +2,11 @@ package geometries;
 
 import primitives.*;
 
-import java.util.List;
 
 /**
  * abstract class Geometry
  * define all the geometry behavior
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public abstract class Geometry extends Intersectable  {
 
@@ -16,25 +15,14 @@ public abstract class Geometry extends Intersectable  {
 
     //region get
 
-    /**
-     * getEmission
-     * @return Color
-     */
     public Color getEmission()
     {
         return emission;
     }
 
-
-    /**
-     * getMaterial
-     * @return Material
-     */
     public Material getMaterial() {
         return material;
     }
-
-
 
     //endregion
 
@@ -63,6 +51,7 @@ public abstract class Geometry extends Intersectable  {
 
     //region methods
     /***
+     * abstract method
      * get normal in this point
      * @param p1
      * @return Vector

@@ -1,10 +1,7 @@
 package primitives;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import primitives.Point;
-import primitives.Vector;
-
-import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -32,6 +29,7 @@ class PointTest {
 
     }
 
+
     /**
      * Test method for {@link primitives.Point#add(Vector)}.
      */
@@ -44,6 +42,7 @@ class PointTest {
         assertEquals(p1.add(new Vector(-1, -2, -3)), (new Point(0, 0, 0)), "ERROR: Point + Vector does not work correctly");
 
     }
+
 
     /**
      * Test method for {@link primitives.Point#distanceSquared(Point)}.
@@ -63,6 +62,7 @@ class PointTest {
 
 
     }
+
 
     /**
      * Test method for {@link primitives.Point#distance(Point)}.

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +24,8 @@ class SphereTest {
         Sphere sp = new Sphere(new Point(2, 0, 0),2 );
         assertEquals(new Point(1, -1.732, 0).subtract(new Point(2, 0, 0)).normalize(), sp.getNormal(new Point(1, -1.732, 0)), "Bad normal to Sphere");
     }
+
+
 
     /**
      * Test method for {@link geometries.Sphere#findIntersections(primitives.Ray)}.
@@ -50,7 +51,6 @@ class SphereTest {
 
         // TC03: Ray starts inside the sphere (1 point)
         Ray ray = new Ray(new Point(0.5, 0,0), new Vector(1, 0,0));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(sphere.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
                 "when the ray starts inside the sphere");
         assertEquals(sphere.findIntersections(ray).get(0), new Point(2,0,0), "ERROR: Wrong value point intersects the sphere " +
@@ -66,7 +66,6 @@ class SphereTest {
         // **** Group: Ray's line crosses the sphere (but not the center)
         // TC11: Ray starts at sphere and goes inside (1 points)
         ray = new Ray(new Point(1, 0,1), new Vector(1, 0,-1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(sphere.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
                 "when the ray starts at sphere and goes inside");
         assertEquals(sphere.findIntersections(ray).get(0), new Point(2,0,0), "ERROR: Wrong value point intersects the sphere " +
@@ -82,7 +81,6 @@ class SphereTest {
         p1 = new Point(1,0,-1);
         p2 = new Point(1,0,1);
         result = sphere.findIntersections(ray);
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals( 2, result.size(), "ERROR: Wrong number of points intersects the sphere " +
                                 "when the ray starts before the sphere");
         if (result.get(0).getZ() > result.get(1).getZ())
@@ -92,7 +90,6 @@ class SphereTest {
 
         // TC14: Ray starts at sphere and goes inside (1 points)
         ray = new Ray(new Point(1, 0,1), new Vector(0, 0,-1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(sphere.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
                 "when the ray starts at sphere and goes inside");
         assertEquals(sphere.findIntersections(ray).get(0), new Point(1,0,-1), "ERROR: Wrong value point intersects the sphere " +
@@ -100,14 +97,12 @@ class SphereTest {
 
         // TC15: Ray starts inside (1 points)
         ray = new Ray(new Point(1, 0,-0.5), new Vector(0, 0,-1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(sphere.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
                 "when the ray starts inside");
         assertEquals(sphere.findIntersections(ray).get(0), new Point(1,0,-1), "ERROR: Wrong value point intersects the sphere " +
                 "when the ray starts inside");
         // TC16: Ray starts at the center (1 points)
         ray = new Ray(sphere.getCenter(), new Vector(0, 0,-1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(sphere.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
                 "when the ray starts at the center");
         assertEquals(sphere.findIntersections(ray).get(0), new Point(1,0,-1), "ERROR: Wrong value point intersects the sphere " +

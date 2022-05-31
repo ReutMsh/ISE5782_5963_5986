@@ -1,10 +1,6 @@
 package primitives;
 
 import org.junit.jupiter.api.Test;
-import primitives.Double3;
-import primitives.Vector;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
@@ -37,6 +33,7 @@ class VectorTest {
 
     }
 
+
     /**
      * Test method for {@link primitives.Vector#add(Vector)}.
      */
@@ -54,6 +51,7 @@ class VectorTest {
         assertThrows(IllegalArgumentException.class, () -> v1.add(new Vector(-1, -2, -3)), "ERROR: No error was thrown when we added counter vectors that create Vector zero");
     }
 
+
     /**
      * Test method for {@link primitives.Vector#scale(double)}.
      */
@@ -70,6 +68,7 @@ class VectorTest {
         assertThrows(IllegalArgumentException.class, () -> v1.scale(0), "ERROR: scale vector with zero doesn't throw exception");
     }
 
+
     /**
      * Test method for {@link primitives.Vector#lengthSquared()}.
      */
@@ -81,6 +80,7 @@ class VectorTest {
         //TC01 test compute lengthSquared func
         assertTrue(isZero(v1.lengthSquared() - 14), "ERROR: lengthSquared() wrong value");
     }
+
 
     /**
      * Test method for {@link primitives.Vector#length()}.

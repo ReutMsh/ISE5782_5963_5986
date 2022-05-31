@@ -1,8 +1,6 @@
 package geometries;
 
-import primitives.Point;
 import primitives.Ray;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,17 +9,25 @@ import java.util.List;
  * class Geometries
  * Department for the Association of Geometric Bodies
  * implements Intersectable
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Geometries extends Intersectable {
 
     List<Intersectable> geometries;
 
     //region constructor
+
+    /**
+     * constructor
+     */
     public Geometries() {
         geometries = new LinkedList<>();
     }
 
+    /**
+     * constructor
+     * @param geometries
+     */
     public Geometries(Intersectable... geometries){
         this.geometries = new LinkedList<>();
         for (Intersectable geometry : geometries) {
@@ -48,7 +54,7 @@ public class Geometries extends Intersectable {
     }
 
     /**
-     * add geometry to the list
+     * Add geometry to the list
      * @param geometries
      */
     public void add(Intersectable... geometries){
@@ -56,5 +62,5 @@ public class Geometries extends Intersectable {
             this.geometries.add(geometry);
         }
     }
-//endregion
+    //endregion
 }

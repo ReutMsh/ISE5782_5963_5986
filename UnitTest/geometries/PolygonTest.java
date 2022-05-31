@@ -3,9 +3,12 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for geometries.PolygonTest class
+ * @author Reut & Odelya
+ */
 class PolygonTest {
 
     /**
@@ -81,7 +84,6 @@ class PolygonTest {
         Ray ray = new Ray(new Point(0,-20,0), new Vector(10, 20, 0));
         // ============ Equivalence Partitions Tests ==============
         //TC01: the point inside the polygon
-        //אם מוחזר null
         assertEquals(polygon.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the polygon " +
                 "when the point Inside the polygon");
 
@@ -90,15 +92,12 @@ class PolygonTest {
 
         //TC02: the point outside against edge
         ray = new Ray(new Point(0,-20,0), new Vector(60,20,20));
-
-        //אם מוחזר null
         assertNull(polygon.findIntersections(ray), "ERROR: Wrong number of points intersects the polygon " +
                 "when the point outside against edge the polygon");
 
 
         //TC03: the point outside against vertex
         ray = new Ray(new Point(0,-20,0), new Vector(50,20,0));
-        //אם מוחזר null
         assertNull(polygon.findIntersections(ray), "ERROR: Wrong number of points intersects the polygon " +
                 "when the point outside against vertex the polygon");
 

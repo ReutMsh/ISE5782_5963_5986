@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -51,7 +50,6 @@ class PlaneTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: ray intersects the plane
         Ray ray = new Ray(new Point(-1,0,-1), new Vector(1, 0,1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane");
         assertEquals(pl.findIntersections(ray).get(0), new Point(2,0,2), "ERROR: Wrong value point intersects the plane");
 
@@ -60,6 +58,7 @@ class PlaneTest {
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane");
 
         // =============== Boundary Values Tests ==================
+
         //region Ray is parallel to the plane
         //TC11: the ray included in the plane
         ray = new Ray(new Point(3,0,2), new Vector(1, 0,1));
@@ -70,12 +69,11 @@ class PlaneTest {
         ray = new Ray(new Point(3,0,3), new Vector(1, 1,0));
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
                 "when Ray is parallel to the plane and not included in the plane");
-    //endregion
+         //endregion
 
         //region Ray is orthogonal to the plane
         //TC13: before the plane
         ray = new Ray(new Point(2,3,1), new Vector(0, 0,1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane" +
                 "when the ray is orthogonal to the plane before the plane");
         assertEquals(pl.findIntersections(ray).get(0), new Point(2,3,2), "ERROR: Wrong value point intersects the plane" +
@@ -83,7 +81,6 @@ class PlaneTest {
 
         //TC14: in the plane
         ray = new Ray(new Point(5,3,2), new Vector(0, 0,1));
-        ///לבדוק מה קורה אם מוחזר null בטעות
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane" +
                 "when the ray is orthogonal to the plane in the plane");
 
@@ -95,6 +92,7 @@ class PlaneTest {
 
         //endregion
 
+        //region neither orthogonal
         //TC16: Ray is neither orthogonal nor parallel to and begins at the plane
         ray = new Ray(new Point(1,0,2), new Vector(1, 1,1));
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
@@ -104,13 +102,7 @@ class PlaneTest {
         ray = new Ray(pl.getQ0(), new Vector(0, 1,1));
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
                 "when the ray is neither orthogonal nor parallel to and begins in the same point which appears as reference point in the plane");
+        //endregion
     }
 
-    /**
-     * Test method for {@link geometries.Plane#findGeoIntersectionsHelper(Ray, double)}.
-     */
-    @Test
-    void testFindGeoIntersectionsHelper() {
-
-    }
 }

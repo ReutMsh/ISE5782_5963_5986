@@ -10,6 +10,13 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.awt.Color.BLUE;
+import static java.awt.Color.white;
+
 public class StandTest {
 
     private Scene scene = new Scene("Test scene");

@@ -3,14 +3,13 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.List;
 
 /**
  * class Tube
  * define Tube with Ray and double radius
- * implements Geometry
- * @author Reut and odelya
+ * extends Geometry
+ * @author Reut and Odelya
  */
 public class Tube extends Geometry{
 

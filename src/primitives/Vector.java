@@ -1,16 +1,16 @@
 package primitives;
 
-import static primitives.Double3.ZERO;
 import static primitives.Util.alignZero;
 
 /**
  * Class Vector define Vector
  * extends from point
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Vector extends Point{
 
     //region constructors
+
     /**
      * constructor
      * @param x
@@ -34,7 +34,7 @@ public class Vector extends Point{
         if(xyz.equals(Double3.ZERO)){
             throw new IllegalArgumentException("ERROR: zero vector");}
     }
-//endregion
+    //endregion
 
     @Override
     public String toString() {
@@ -117,10 +117,9 @@ public class Vector extends Point{
 
     /**
      * return min between d1,d2,d3
-     * @return double
+     * @return Vector
      */
     public Vector minD(){
-        double min = xyz.d1;
         if (xyz.d1 < xyz.d2 && xyz.d1 < xyz.d3)
             return new Vector(0, xyz.d3, -xyz.d2);
         if (xyz.d2 < xyz.d1 && xyz.d2 < xyz.d3)

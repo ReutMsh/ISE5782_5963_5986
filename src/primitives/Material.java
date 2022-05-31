@@ -2,13 +2,12 @@ package primitives;
 
 /**
  * Material classes
+ * Responsible for entering the data of the coefficients of light
  * PDS
- * @author Reut and odelya
+ * @author Reut and Odelya
   */
 public class Material {
-    public Double3 kD = Double3.ZERO;
-    public Double3 kS = Double3.ZERO;
-    public int nShininess = 0;
+
     /**
      * Promotes transparency
      */
@@ -18,6 +17,10 @@ public class Material {
      * Coefficient of reflection
      */
     public Double3 kR = Double3.ZERO;
+
+    public Double3 kD = Double3.ZERO;
+    public Double3 kS = Double3.ZERO;
+    public int nShininess = 0;
 
     //region setters
 

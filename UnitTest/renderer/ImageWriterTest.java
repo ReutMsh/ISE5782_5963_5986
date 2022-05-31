@@ -3,16 +3,15 @@ package renderer;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Testing ImageWriter Class
- *
+ *Unit tests for renderer.ImageWriter class
  * @author Reut and Odelya
  *
  */
 class ImageWriterTest {
 
+    //region method
     /**
      * Method that adds a grid to the image (rows and columns)
      * @param colorTheGrid
@@ -38,6 +37,7 @@ class ImageWriterTest {
             }
         }
     }
+    //endregion
 
     /**
      * A test that tests simple image construction (without geometric shapes)

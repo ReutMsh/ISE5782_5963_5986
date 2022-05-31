@@ -2,13 +2,11 @@ package renderer;
 
 import geometries.*;
 import org.junit.jupiter.api.Test;
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import renderer.Camera;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -122,6 +120,9 @@ class rayConstructionTest {
     //endregion
 
     //region test ray in Geometries
+    /**
+     * Test of ray in Geometries
+     */
     @Test
     void testRayConstructionGeometries() {
         Camera camera = new Camera(new Point(0,0,0), new Vector(0,0,-1), new Vector(0,1,0)).setVPDistance(1);

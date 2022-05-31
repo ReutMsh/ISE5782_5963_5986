@@ -12,7 +12,7 @@ import static primitives.Util.*;
 /**
  * class Triangle
  * extends Polygon
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Triangle extends Polygon{
 
@@ -35,7 +35,7 @@ public class Triangle extends Polygon{
                 '}';
     }
 
-
+    //region method
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //check if the ray intersection the plan
@@ -66,4 +66,5 @@ public class Triangle extends Polygon{
         }
         return null;
     }
+    //endregion
 }

@@ -1,32 +1,29 @@
 package primitives;
 
 import java.util.List;
-import java.util.Objects;
 import geometries.Intersectable.GeoPoint;
 
-import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
 
 /**
  * Class Ray define ray
  * with normalise vector and point
- * @author Reut and odelya
+ * @author Reut and Odelya
  */
 public class Ray {
-    private final Point p0;
-    private final Vector dir;
 
     /**
      *fixed for moving the beginning of the rays. Of shading rays
      */
     private static final double DELTA = 0.1;
 
+    private final Point p0;
+    private final Vector dir;
+
     //region constructor
 
     /**
      * constructor
      * normalize the vector and build the ray
-     *
      * @param p0
      * @param dir
      */
@@ -35,13 +32,16 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    /**
+     * constructor
+     * @param head
+     * @param direction
+     * @param n
+     */
     public Ray(Point head, Vector direction, Vector n) {
         p0 = head.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
         dir = direction;
     }
-
-
-
     //endregion
 
     //region get
@@ -53,7 +53,6 @@ public class Ray {
     public Vector getDir() {
         return dir;
     }
-
     //endregion
 
     @Override
@@ -72,10 +71,11 @@ public class Ray {
                 '}';
     }
 
+
     /**
      *Finding a point that is at a distance of 't' from the beginning of the ray
      * @param t
-     * @return
+     * @return Point
      */
     public Point getPoint(double t) {
         try {
@@ -87,12 +87,11 @@ public class Ray {
     }
 
 
-
     /**
      * Receives a list of points and returns the point
      * closest to the beginning of the fund
      * @param pointList
-     * @return
+     * @return Point
      */
     public Point findClosestPoint(List<Point> pointList)
     {
@@ -105,7 +104,7 @@ public class Ray {
      * Receives a list of GeoPoints and returns the GeoPoint
      * closest to the beginning of the fund
      * @param GeoPointList
-     * @return
+     * @return GeoPoint
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> GeoPointList)
     {
@@ -122,7 +121,6 @@ public class Ray {
                 minDistanceSquared = distanceSquared;
                 closesPoint = geoPoint;
             }
-
         }
         return closesPoint;
     }
