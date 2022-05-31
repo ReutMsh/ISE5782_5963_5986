@@ -35,6 +35,7 @@ public abstract class RayTracerBase  {
 
     /**
      * abstract method
+     * for Anti-Aliasing
      * get list of Ray, find the average color between all the color of intersection points
      * @param rayList
      * @return Color

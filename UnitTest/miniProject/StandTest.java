@@ -13,18 +13,7 @@ import scene.Scene;
 public class StandTest {
 
     private Scene scene = new Scene("Test scene");
-   /* private Camera camera = new Camera(new Point(-1000, 1500, 50), new Vector(1080, -1500, 0), new Vector(0, 0, 1)) //
-            .setVPSize(200, 200).setVPDistance(1000) //
-            .setRayTracer(new RayTracerBasic(scene)).moveAroundVUp(Math.toRadians(0));
-*/
-    /*private Camera camera = new Camera(new Point(0, 0, 1500), new Vector(0, 0, -1), new Vector(1, 0, 0)) //
-            .setVPSize(200, 200).setVPDistance(1000) //
-            .setRayTracer(new RayTracerBasic(scene)).moveAroundVUp(Math.toRadians(0));
-            */
-    /*private Camera camera = new Camera(new Point(-1000,2000,500), new Vector(1080,-1500,-450), new Vector(1500,1080,0)) //
-           .setVPSize(200, 200).setVPDistance(1000) //
-           .setRayTracer(new RayTracerBasic(scene)).moveAroundVTo(Math.toRadians(-90)).moveAroundVUp(Math.toRadians(10)).moveAroundVRight(Math.toRadians(-2.5));
-           */
+
    private Camera camera = new Camera(new Point(900,1500,300), new Vector(-920,-1500,-250), new Vector(0,-250,1500)) //
            .setVPSize(200, 200).setVPDistance(1000) //
            .setRayTracer(new RayTracerBasic(scene)).moveAroundVTo(Math.toRadians(0)).moveAroundVUp(Math.toRadians(0)).moveAroundVRight(Math.toRadians(-1));
@@ -41,8 +30,6 @@ public class StandTest {
         ShapesScene stand2 = new ShapesScene(new Point(-100,25,0), new Point(-100,-25,0), //
                 new Point(-100,-25,140), new Point(-100,0,140), standMaterial, standColor);
 
-        //scene.geometries.add(new Sphere(new Point(0,0,200), 25).setEmission(new Color(white)) //
-             //   .setMaterial(new Material().setKD(0.2).setKS(0.2).setNShininess(30).setKT(new Double3(0.6))));
 
         scene.geometries.add(new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0,0,0))//
                .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)));

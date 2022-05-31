@@ -3,15 +3,22 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import renderer.BlackBoard;
 
 /**
  * class PointLight
  * extends Light implements LightSource
  * @author Reut and odelya
  */
+
 public class PointLight extends Light implements LightSource{
 
-    private Point position;
+    /**
+     * size of the opening angle for getBlackBoard.
+     */
+    protected static final double ALFA = 0.6;
+
+    protected Point position;
     private double kC;
     private double kL;
     private double kQ;
@@ -25,7 +32,6 @@ public class PointLight extends Light implements LightSource{
      */
     public PointLight(Color intensity, Point position) {
         super(intensity);
-        /**position = PL -> spotLight location */
         this.position = position;
         this.kC = 1;
         this.kL = 0;
@@ -81,5 +87,10 @@ public class PointLight extends Light implements LightSource{
     @Override
     public double getDistance(Point point) {
         return position.distance(point);
+    }
+
+    @Override
+    public BlackBoard getBlackBoard(Point point) {
+        return new BlackBoard(ALFA, getDistance(point), getL(point), position);
     }
 }

@@ -88,7 +88,7 @@ public class RenderTests {
         camera.writeToImage();
 
         camera.setImageWriter(new ImageWriter("move camera 5 deg test", 1000,1000));
-        camera.moveCamera(Math.toRadians(5));
+        camera.moveAroundVUp(Math.toRadians(5));
         camera.renderImage();
         camera.printGrid(100, new Color(java.awt.Color.YELLOW));
         camera.writeToImage();

@@ -80,7 +80,7 @@ public class ReflectionRefractionTests {
 	}
 
 	/**
-	 * Produce a picture of a two triangles lighted by a spot light with a partially
+	 * Produce a picture of two triangles lighted by a spotlight with a partially
 	 * transparent Sphere producing partial shadow
 	 */
 	@Test

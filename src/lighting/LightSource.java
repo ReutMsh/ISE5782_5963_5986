@@ -3,6 +3,7 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import renderer.BlackBoard;
 
 /**
  * interface LightSource
@@ -10,6 +11,7 @@ import primitives.Vector;
  * @author Reut and odelya
  */
 public interface LightSource {
+
     /**
      * return the intensity
      * @param p
@@ -30,5 +32,13 @@ public interface LightSource {
      * @param point
      * @return double
      */
-    double getDistance(Point point);
+    public double getDistance(Point point);
+
+    /**
+     * build the blackBoard in point
+     * the BlackBoard defines area per light.
+     * @param point
+     * @return BlackBoard
+     */
+    public BlackBoard getBlackBoard(Point point);
 }

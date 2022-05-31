@@ -4,10 +4,7 @@ import geometries.Plane;
 import lighting.PointLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
-import primitives.Color;
-import primitives.Material;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.RayTracerBasic;
@@ -58,7 +55,7 @@ public class miniProjectOneTest {
         ShapesScene cylinders = new ShapesScene(rightDirection, 2, 170, standMaterial, standColor, new Point(85,7,25),//
         new Point(85,3,50), new Point(85,-1.5,75), new Point(85,-6,100), new Point(85,-10.5,125));
 
-        ShapesScene boldCylinders = new ShapesScene(rightDirection, 3, 170, standMaterial, standColor, new Point(85,-20,130));
+        ShapesScene boldCylinders = new ShapesScene(rightDirection, 3, 170, standMaterial, standColor, new Point(85,-20,135));
         //endregion
 
         //region beads
@@ -80,7 +77,9 @@ public class miniProjectOneTest {
         //endregion
 
         scene.geometries.add(new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0,0,0))//
-                .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)));
+                .setMaterial(new Material().setKR(new Double3(0.2))).setEmission(new Color(20,20,20)),
+                new Plane(new Point(0,-200,1), new Point(1,-200,0), new Point(0,-200,0))//
+                        .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(300)).setEmission(new Color(0,0,0)));
 
         scene.geometries.add(leftStand, rightStand, beadsLineOneLeft, beadsLineOneRight, beadsLineTwoLeft, beadsLineTwoRight,//
                 beadsLineThreeLeft, beadsLineThreeRight, beadsLineFourLeft, beadsLineFourRight, beadsLineFiveLeft, beadsLineFiveRight,//
@@ -116,7 +115,7 @@ public class miniProjectOneTest {
         ShapesScene cylinders = new ShapesScene(rightDirection, 2, 170, standMaterial, standColor, new Point(85,7,25),//
                 new Point(85,3,50), new Point(85,-1.5,75), new Point(85,-6,100), new Point(85,-10.5,125));
 
-        ShapesScene boldCylinders = new ShapesScene(rightDirection, 3, 170, standMaterial, standColor, new Point(85,-20,130));
+        ShapesScene boldCylinders = new ShapesScene(rightDirection, 3, 170, standMaterial, standColor, new Point(85,-20,135));
         //endregion
 
         //region beads

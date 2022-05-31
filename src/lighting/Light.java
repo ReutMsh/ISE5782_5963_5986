@@ -1,6 +1,7 @@
 package lighting;
 
 import primitives.Color;
+import renderer.BlackBoard;
 
 /**
  * abstract Class Light

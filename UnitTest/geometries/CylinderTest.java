@@ -39,4 +39,12 @@ class CylinderTest {
         assertEquals(new Vector(0,0,-1), cylinderToTest.getNormal(new Point(0, 0, 13)), "Bad normal to Cylinder");
 
     }
+
+
+    @Test
+    void testFindGeoIntersectionsHelper() {
+        // ============ Equivalence Partitions Tests ==============
+
+
+    }
 }

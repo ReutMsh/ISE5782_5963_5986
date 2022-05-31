@@ -3,6 +3,7 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import renderer.BlackBoard;
 
 /**
  * class SpotLight
@@ -35,4 +36,8 @@ public class SpotLight extends PointLight{
         return super.getIntensity(p).scale(maxDir);
     }
 
+    @Override
+    public BlackBoard getBlackBoard(Point point) {
+        return new BlackBoard(ALFA, getDistance(point), getL(point).scale(-1), position);
+    }
 }

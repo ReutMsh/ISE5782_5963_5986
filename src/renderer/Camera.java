@@ -112,28 +112,7 @@ public class Camera {
 
     //region methods
 
-    /**
-     * build ray from the camera to center pixel desired
-     * @param nX
-     * @param nY
-     * @param j
-     * @param i
-     * @return Ray
-     */
-    public Ray constructRay(int nX, int nY, int j, int i)
-    {
-        Point pCenterVP = p0.add(vTo.scale(distance));
-        double rX = width/nX;
-        double rY = height/nY;
-        double xJ = (j - (nX-1)/2d)*rX;
-        double yI = -(i - (nY-1)/2d)*rY;
-
-        Point pIJ = pCenterVP;
-        if(!isZero(xJ)) { pIJ = pIJ.add(vRight.scale(xJ));}
-        if(!isZero(yI)) {pIJ = pIJ.add(vUp.scale(yI));}
-
-        return new Ray(p0, pIJ.subtract(p0));
-    }
+    //region renderImage
 
     /**
      *Check the field values - that they are not empty
@@ -166,10 +145,6 @@ public class Camera {
 
 
     }
-
-
-
-    //region Anti-Aliasing
 
     /**
      * for Anti-Aliasing
@@ -212,6 +187,32 @@ public class Camera {
 
     }
 
+    //endregion
+
+    //region constructRay
+    /**
+     * build ray from the camera to center pixel desired
+     * @param nX
+     * @param nY
+     * @param j
+     * @param i
+     * @return Ray
+     */
+    public Ray constructRay(int nX, int nY, int j, int i)
+    {
+        Point pCenterVP = p0.add(vTo.scale(distance));
+        double rX = width/nX;
+        double rY = height/nY;
+        double xJ = (j - (nX-1)/2d)*rX;
+        double yI = -(i - (nY-1)/2d)*rY;
+
+        Point pIJ = pCenterVP;
+        if(!isZero(xJ)) { pIJ = pIJ.add(vRight.scale(xJ));}
+        if(!isZero(yI)) {pIJ = pIJ.add(vUp.scale(yI));}
+
+        return new Ray(p0, pIJ.subtract(p0));
+    }
+
     /**
      * for Anti-Aliasing
      * build list of rays from the camera to random point in pixel desired.
@@ -236,7 +237,7 @@ public class Camera {
 
         rayList.add(new Ray(p0, pCenterPixel.subtract(p0)));
 
-        MultipleRay multipleRay = new MultipleRay(vRight, vUp, pCenterPixel, rX, rY, countRay);
+        MultipleRay multipleRay = new MultipleRay(vRight, vUp, pCenterPixel, rX, rY, countRay-1);
         rayList.addAll(multipleRay.constructMultipleRay(p0));
 
         return rayList;
@@ -287,13 +288,6 @@ public class Camera {
     }
 
     //region move camera
-
-    public Camera moveCamera(double angle){
-        vTo = moveCameraAroundVector(vUp, vTo, vRight, angle);
-        vRight = vTo.crossProduct(vUp).normalize();
-
-        return this;
-    }
 
     //region move around vTo
     public Camera moveAroundVTo(double angle){

@@ -1,23 +1,19 @@
 package renderer;
 
-import geometries.Triangle;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
-
 import java.util.ArrayList;
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
-
 import static primitives.Util.alignZero;
 
 /**
  * Class RayTracerBasic
- *
+ * responsible for finding the color of the pixel
  * @author Reut and Odelya
  */
 public class RayTracerBasic extends RayTracerBase {
-
 
     /**
      * max level to find Transparencies / reflections
@@ -27,6 +23,9 @@ public class RayTracerBasic extends RayTracerBase {
      * minimum Percentage to calculate transparencies / reflections
      */
     private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
+    /**
+     * Percentage of initial impact of transparencies / reflections
+     */
     private static final Double3 INITIAL_K = new Double3(1.0);
 
     //region constructor
@@ -42,6 +41,20 @@ public class RayTracerBasic extends RayTracerBase {
     //region private method
 
     //region calcColor
+
+    /**
+     * find the color of the pixel.
+     * add Only once the ambientLight and call to calcColor that call
+     * to calcGlobalEffects and calcLocalEffects.
+     * @param geoPoint
+     * @param ray
+     * @return Color
+     */
+    private Color calcColor(GeoPoint geoPoint, Ray ray) {
+        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
+                .add(scene.ambientLight.getIntensity());
+    }
+
     /**
      * method of finding the color of a pixel
      * call to calcGlobalEffects
@@ -56,20 +69,17 @@ public class RayTracerBasic extends RayTracerBase {
 
     }
 
-    /**
-     * find the color of the pixel
-     * call to recursive calcColor
-     * @param geoPoint
-     * @param ray
-     * @return
-     */
-    private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
-                .add(scene.ambientLight.getIntensity());
-    }
     //endregion
 
     //region Local
+
+    /**
+     * find the local color of the pixel
+     * @param geoPointIntersection
+     * @param ray
+     * @param k
+     * @return Color
+     */
     private Color calcLocalEffects(GeoPoint geoPointIntersection, Ray ray, Double3 k) {
         Vector v = ray.getDir();
         Vector n = geoPointIntersection.geometry.getNormal(geoPointIntersection.point);
@@ -95,12 +105,109 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
     /**
-     *
+     * refactor - > transparency
+     * check if the pixel unshaded
+     * @param geoPoint
+     * @param l
+     * @param n
+     * @param lightSource
+     * @return boolean
+     */
+    private boolean unshaded(GeoPoint geoPoint, Vector l, Vector n, LightSource lightSource) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
+        double lightDistance = lightSource.getDistance(geoPoint.point);
+        var intersections = scene.geometries.findGeoIntersections(lightRay, lightDistance);
+        if (intersections == null)
+            return true;
+
+        Double3 transparent = Double3.ONE;
+        for (var geo : intersections) {
+            transparent = transparent.product(geo.geometry.getMaterial().kT);
+            if (transparent.subtract(MIN_CALC_COLOR_K).lowerThan(0))
+                return false;
+        }
+
+        return true;
+    }
+
+    //region transparency
+
+    /**
+     *check if the pixel unshaded
+     * and how much it is shaded
+     * *check with only one ray
+     * @param geoPoint
+     * @param lightSource
+     * @param l
+     * @param n
+     * @return double
+     */
+    private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n){
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
+        double lightDistance = lightSource.getDistance(geoPoint.point);
+        var intersections = scene.geometries.findGeoIntersections(lightRay, lightDistance);
+        if (intersections == null)
+            return Double3.ONE;
+
+        Double3 ktr = Double3.ONE;
+        for (var geo : intersections) {
+            ktr = ktr.product(geo.geometry.getMaterial().kT);
+            if (ktr.subtract(MIN_CALC_COLOR_K).lowerThan(0))
+                return Double3.ZERO;
+        }
+        return ktr;
+    }
+
+    /**
+     * for softShadow
+     *check if the pixel unshaded
+     * and how much it is shaded
+     * *check with multi rays.
+     * @param geoPoint
+     * @param lightSource
+     * @param l
+     * @param n
+     * @param countRay
+     * @return
+     */
+    private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n, int countRay){
+        Vector lightDirection = l.scale(-1); // from point to light source
+
+        List<Ray> rayList = new ArrayList<>();
+        rayList.add(new Ray(geoPoint.point, lightDirection, n)); //add the center ray.
+        MultipleRay multipleRay = new MultipleRay(lightSource.getBlackBoard(geoPoint.point), countRay-1);
+        rayList.addAll(multipleRay.constructMultipleRay(geoPoint.point.addDeltaPoint(lightDirection, n)));
+        Double3 ktr = Double3.ZERO;
+        for (Ray ray: rayList) {
+            double lightDistance = lightSource.getDistance(geoPoint.point);
+            var intersections = scene.geometries.findGeoIntersections(ray, lightDistance);
+            if (intersections == null)
+                ktr = ktr.add(Double3.ONE);
+            else {
+                Double3 partAtr = Double3.ONE;
+                for (var geo : intersections) {
+                    partAtr = partAtr.product(geo.geometry.getMaterial().kT);
+                    if (partAtr.subtract(MIN_CALC_COLOR_K).lowerThan(0))
+                        ktr = ktr.add(Double3.ZERO);
+                    else
+                        ktr = ktr.add(partAtr);
+                }
+            }
+        }
+        return ktr.reduce(rayList.size());
+    }
+
+    //endregion
+
+    /**
+     *compute the diffuse effect of light on the pixel.
      * @param kd
      * @param l
      * @param n
      * @param lightIntensity
-     * @return
+     * @return Color
      */
     private Color calcDiffusive(Double3 kd, Vector l,Vector n, Color lightIntensity, double nl){
         if(nl < 0 )
@@ -110,14 +217,15 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
     /**
-     *
+     *compute the specular effect of light on the pixel.
+     * (The reflected light)
      * @param ks
      * @param l
      * @param n
      * @param v
      * @param nShininess
      * @param lightIntensity
-     * @return
+     * @return Color
      */
     private Color calcSpecular(Double3 ks, Vector l,Vector n, Vector v, int nShininess, Color lightIntensity, double ln){
         Vector r  = l.add(n.scale(ln*-2)).normalize();
@@ -130,7 +238,7 @@ public class RayTracerBasic extends RayTracerBase {
     }
     //endregion
 
-    //region Global
+    //region calcGlobal
     /**
      * Recursive func
      *compute the global color
@@ -183,58 +291,7 @@ public class RayTracerBasic extends RayTracerBase {
         return new Ray(point, r, n);
     }
 
-    /**
-     * check if the pixel unshaded
-     * @param geoPoint
-     * @param l
-     * @param n
-     * @param lightSource
-     * @return boolean
-     */
-    private boolean unshaded(GeoPoint geoPoint, Vector l, Vector n, LightSource lightSource) {
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-        double lightDistance = lightSource.getDistance(geoPoint.point);
-        var intersections = scene.geometries.findGeoIntersections(lightRay, lightDistance);
-        if (intersections == null)
-            return true;
-
-        Double3 transparent = Double3.ONE;
-        for (var geo : intersections) {
-            transparent = transparent.product(geo.geometry.getMaterial().kT);
-            if (transparent.subtract(MIN_CALC_COLOR_K).lowerThan(0))
-                return false;
-        }
-
-        return true;
-    }
-
-    /**
-     *
-     * @param geoPoint
-     * @param lightSource
-     * @param l
-     * @param n
-     * @return double
-     */
-    private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n){
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-        double lightDistance = lightSource.getDistance(geoPoint.point);
-        var intersections = scene.geometries.findGeoIntersections(lightRay, lightDistance);
-        if (intersections == null)
-            return Double3.ONE;
-
-        Double3 ktr = Double3.ONE;
-        for (var geo : intersections) {
-            ktr = ktr.product(geo.geometry.getMaterial().kT);
-            if (ktr.subtract(MIN_CALC_COLOR_K).lowerThan(0))
-                return Double3.ZERO;
-        }
-        return ktr;
-    }
     //endregion
-
 
     /**
      * find the close intersection GeoPoint
@@ -248,7 +305,7 @@ public class RayTracerBasic extends RayTracerBase {
 
     //endregion
 
-    //region method
+    //region traceRay
     @Override
     public Color traceRay(Ray ray) {
        GeoPoint closestGeoPoint = findClosestIntersection(ray);
@@ -259,22 +316,20 @@ public class RayTracerBasic extends RayTracerBase {
        return calcColor(closestGeoPoint, ray);
     }
 
+    @Override
     public Color traceRay(List<Ray> rayList) {
         List<Color> colorList = new ArrayList<>();
+        //Color color = Color.BLACK;
         for (Ray ray:rayList) {
-            GeoPoint closestGeoPoint = findClosestIntersection(ray);
-            if (closestGeoPoint == null) {
-                colorList.add(scene.background);
-            }
-            else {colorList.add(calcColor(closestGeoPoint, ray));}
-        }
+            colorList.add(traceRay(ray));}
+
         Color finalColor = Color.BLACK;
         Color[] colorArr = new Color[rayList.size()];
         colorArr = colorList.toArray(colorArr);
         return finalColor.add(colorArr).reduce(colorList.size());
 
+        //return color.reduce(rayList.size());
         }
-
 
     //endregion
 

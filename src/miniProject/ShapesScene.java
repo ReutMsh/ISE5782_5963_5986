@@ -5,6 +5,11 @@ import primitives.*;
 
 import java.util.List;
 
+/**
+ * A class that is responsible for constructing a group of geometric shapes according to the scene,
+  * there are 3 constructors for major shapes in the scene.
+ * @author Reut and odelya
+ */
 public class ShapesScene extends Intersectable {
 
     private Material standMaterial;
@@ -63,6 +68,7 @@ public class ShapesScene extends Intersectable {
         for (int i = 0; i < countSpheres; i++, nextCenter = nextCenter.getPoint(direction, 2*radius)){
             geometriesShapes.add(new Sphere(nextCenter, radius).setMaterial(standMaterial).setEmission(standColor));
         }
+        geometriesShapes.add(new Sphere(nextCenter.getPoint(direction.scale(-1), radius*1.3).getPoint(new Vector(0,0,-1), 0.5), radius*0.4).setMaterial(standMaterial).setEmission(Color.BLACK));
     }
 
     /**
@@ -82,9 +88,10 @@ public class ShapesScene extends Intersectable {
         standMaterial = material;
 
         for (Point startPoint: startPoints) {
-            geometriesShapes.add(new Cylinder(new Ray(startPoint, direction), radius, length));
+            geometriesShapes.add(new Cylinder(new Ray(startPoint, direction), radius, length).setMaterial(material).setEmission(color));
         }
     }
+
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         return geometriesShapes.findGeoIntersections(ray,maxDistance);
