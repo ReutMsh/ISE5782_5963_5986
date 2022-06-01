@@ -153,7 +153,7 @@ public class miniProjectOneTest {
         ImageWriter imageWriter = new ImageWriter("standWithBeadsAntiAliasing test", 500, 500);
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
-                .renderImage(9); //
+                .renderImage(); //
         camera.writeToImage(); //
     }
 }

@@ -1,7 +1,9 @@
 package renderer;
 
 import geometries.Plane;
+import geometries.Polygon;
 import geometries.Sphere;
+import geometries.Triangle;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
@@ -29,7 +31,7 @@ public class SoftShadowTest {
         scene.geometries.add(new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0,0,0))//
                 .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)));
 
-        scene.geometries.add(new Sphere(new Point(0,0,30), 30).setMaterial(standMaterial).setEmission(standColor));
+        scene.geometries.add(new Sphere(new Point(-30,0,30), 30).setMaterial(standMaterial).setEmission(standColor));
         //endregion
 
         //region lights
@@ -40,6 +42,28 @@ public class SoftShadowTest {
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage(9); //
+        camera.writeToImage(); //
+    }
+
+    @Test
+    void testSoftShadowVL() {
+        scene.geometries.add(new Polygon(new Point(100,0,0), new Point(100,100,0), new Point(-100,100,0), new Point(-100,-100,0))//
+                .setMaterial(standMaterial));
+        scene.geometries.add(new Polygon(new Point(100,0,100), new Point(100,100,100), new Point(-100,20,100), new Point(-100,-20,100))//
+                .setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)));
+
+        scene.geometries.add(new Sphere(new Point(0,0,20), 20).setMaterial(standMaterial).setEmission(standColor));
+        //endregion
+
+        //region lights
+        scene.lights.add(new SpotLight(spCL, new Point(-100,100,150), new Vector(130, -100, -80)).setKL(0.001).setKQ(0.0001));
+        scene.lights.add(new SpotLight(spCL, new Point(100,100,-2), new Vector(0, 0, 1)).setKL(0.001).setKQ(0.0001));
+        //endregion
+
+        ImageWriter imageWriter = new ImageWriter("softShadowLv test", 500, 500);
+        camera.setImageWriter(imageWriter) //
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage(); //
         camera.writeToImage(); //
     }
 }

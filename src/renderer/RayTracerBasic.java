@@ -61,8 +61,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @param geoPoint
      * @return Color
      */
-    private Color calcColor(GeoPoint geoPoint , Ray ray, int level, Double3 k)
-    {
+    private Color calcColor(GeoPoint geoPoint , Ray ray, int level, Double3 k) {
         Color color = calcLocalEffects(geoPoint, ray, k).add(geoPoint.geometry.getEmission());
 
         return 1 == level ? color : color.add(calcGlobalEffects(geoPoint, ray, level, k));
@@ -92,8 +91,9 @@ public class RayTracerBasic extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(geoPointIntersection.point);
             double nl = alignZero(n.dotProduct(l));
+
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Double3 ktr = transparency(geoPointIntersection, lightSource, l, n);
+                Double3 ktr = transparency(geoPointIntersection, lightSource, l, n, 81);
                 if (MIN_CALC_COLOR_K.subtract(ktr.product(k)).lowerThan(0) ){
                     Color lightIntensity = lightSource.getIntensity(geoPointIntersection.point).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity, nl),
@@ -103,6 +103,85 @@ public class RayTracerBasic extends RayTracerBase {
         }
         return color;
     }
+
+    //region dan
+
+    /**
+     * find the local color of the pixel
+     * with multi pixel
+     * call to  private Double3 transparency(Ray ray, Point point, LightSource lightSource)
+     * @param geoPointIntersection
+     * @param cameraRay
+     * @param k
+     * @param countRay
+     * @return Color
+     */
+    private Color calcLocalEffects(GeoPoint geoPointIntersection, Ray cameraRay, Double3 k, int countRay) {
+        Vector v = cameraRay.getDir();
+        Vector n = geoPointIntersection.geometry.getNormal(geoPointIntersection.point);
+        double nv = alignZero(n.dotProduct(v));
+        if (nv == 0) return Color.BLACK;
+        int nShininess = geoPointIntersection.geometry.getMaterial().nShininess;
+        Double3 kd = geoPointIntersection.geometry.getMaterial().kD;
+        Double3 ks = geoPointIntersection.geometry.getMaterial().kS;
+        List<Color> colorList = new ArrayList<>();
+
+        for (LightSource lightSource : scene.lights) {
+            Vector l = lightSource.getL(geoPointIntersection.point);
+            double nl = alignZero(n.dotProduct(l));
+
+            Vector lightDirection = l.scale(-1); // from point to light source
+            List<Ray> rayList = new ArrayList<>();
+
+            rayList.add(new Ray(geoPointIntersection.point, lightDirection, n)); //add the center ray.
+            MultipleRay multipleRay = new MultipleRay(lightSource.getBlackBoard(geoPointIntersection.point), countRay-1);
+            rayList.addAll(multipleRay.constructMultipleRay(geoPointIntersection.point.addDeltaPoint(lightDirection, n)));
+            for (Ray shadowRay: rayList) {
+                Color pixelColor = Color.BLACK;
+                if (nl * nv > 0) { // sign(nl) == sing(nv)
+                    Double3 ktr = transparency(shadowRay, geoPointIntersection.point , lightSource);
+                    if (MIN_CALC_COLOR_K.subtract(ktr.product(k)).lowerThan(0) ){
+                        Color lightIntensity = lightSource.getIntensity(geoPointIntersection.point).scale(ktr);
+                        pixelColor = pixelColor.add(calcDiffusive(kd, l, n, lightIntensity, nl),
+                                calcSpecular(ks, l, n, v, nShininess, lightIntensity, nl));
+                    }
+                    colorList.add(pixelColor);
+                }
+            }
+
+        }
+        Color endColor = Color.BLACK;
+        Color[] colorArr = new Color[colorList.size()];
+        colorArr = colorList.toArray(colorArr);
+        return endColor.add(colorArr).reduce(colorList.size()>0?colorList.size():1);
+
+    }
+
+
+    /**
+     *check if the pixel unshaded
+     * and how much it is shaded
+     * *check about specific ray (from multi ray)
+     * @param ray
+     * @param point
+     * @param lightSource
+     * @return Double3
+     */
+    private Double3 transparency(Ray ray, Point point, LightSource lightSource){
+        double lightDistance = lightSource.getDistance(point);
+        var intersections = scene.geometries.findGeoIntersections(ray, lightDistance);
+        if (intersections == null)
+            return Double3.ONE;
+
+        Double3 ktr = Double3.ONE;
+        for (var geo : intersections) {
+            ktr = ktr.product(geo.geometry.getMaterial().kT);
+            if (ktr.subtract(MIN_CALC_COLOR_K).lowerThan(0))
+                return Double3.ZERO;
+        }
+        return ktr;
+    }
+//endregion
 
     /**
      * refactor - > transparency
@@ -160,6 +239,7 @@ public class RayTracerBasic extends RayTracerBase {
         return ktr;
     }
 
+
     /**
      * for softShadow
      *check if the pixel unshaded
@@ -174,15 +254,18 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n, int countRay){
         Vector lightDirection = l.scale(-1); // from point to light source
-
         List<Ray> rayList = new ArrayList<>();
+
         rayList.add(new Ray(geoPoint.point, lightDirection, n)); //add the center ray.
         MultipleRay multipleRay = new MultipleRay(lightSource.getBlackBoard(geoPoint.point), countRay-1);
+
         rayList.addAll(multipleRay.constructMultipleRay(geoPoint.point.addDeltaPoint(lightDirection, n)));
         Double3 ktr = Double3.ZERO;
         for (Ray ray: rayList) {
             double lightDistance = lightSource.getDistance(geoPoint.point);
             var intersections = scene.geometries.findGeoIntersections(ray, lightDistance);
+            double nl = alignZero(n.dotProduct(ray.getDir()));
+            double nv = alignZero(n.dotProduct(ray.getDir()));
             if (intersections == null)
                 ktr = ktr.add(Double3.ONE);
             else {
