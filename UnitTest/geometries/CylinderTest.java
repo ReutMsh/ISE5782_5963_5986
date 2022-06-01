@@ -40,13 +40,6 @@ class CylinderTest {
     }
 
 
-    @Test
-    void testFindGeoIntersectionsHelper() {
-        // ============ Equivalence Partitions Tests ==============
-
-
-    }
-
     /**
      * Test method for {@link geometries.Cylinder#findGeoIntersectionsHelper(Ray, double)} ()}.
      */

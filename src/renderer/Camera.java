@@ -117,19 +117,8 @@ public class Camera {
      *Check the field values - that they are not empty
      * For each pixel we get the appropriate color by sending a ray
      */
-    public void renderImage()
-    {
-        if( width == 0 )
-        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,  "width");}
-        if( height == 0)
-        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,"height");}
-        if(distance == 0)
-        {     throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "distance");}
-        if(imageWriter == null)
-        {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
-        if(rayTracer == null)
-        {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
-
+    public void renderImage() {
+        renderCheckExcepted();
 
         //A loop that colors each pixel in a color that suits it
         for (int i =0; i<imageWriter.getNy(); i++)
@@ -152,8 +141,36 @@ public class Camera {
      * check about countRay random rays
      * if the color different-> check countRay^2 random rays
      */
-    public void renderImage(int countRay)
-    {
+    public void renderImage(int countRay) {
+        renderCheckExcepted();
+
+        int nY = imageWriter.getNy();
+        int nX = imageWriter.getNx();
+
+        //A loop that colors each pixel in a color that suits it
+
+        for (int i = 0; i< nY; i++) {
+            for (int j = 0; j< nX; j++)
+            {
+                List<Ray> raysPixel= constructRay(nX, nY, j, i ,countRay);
+                Color colorPixel= rayTracer.traceRay(raysPixel);
+
+                if(!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
+                    raysPixel= constructRay(nX, nY, j, i ,countRay*countRay);
+                    colorPixel= rayTracer.traceRay(raysPixel);
+                }
+
+
+                imageWriter.writePixel(j, i, colorPixel);
+            }
+        }
+
+    }
+
+    /**
+     * check if one or more values are not Initialized.
+     */
+    private void renderCheckExcepted() {
         if( width == 0 )
         {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" ,  "width");}
         if( height == 0)
@@ -164,26 +181,6 @@ public class Camera {
         {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
         if(rayTracer == null)
         {  throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "rayTracerBase");}
-
-
-        //A loop that colors each pixel in a color that suits it
-        for (int i =0; i<imageWriter.getNy(); i++)
-        {
-            for (int j =0; j<imageWriter.getNx(); j++)
-            {
-                List<Ray> raysPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i ,countRay);
-                Color colorPixel= rayTracer.traceRay(raysPixel);
-
-                if(!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
-                    raysPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i ,countRay*countRay);
-                    colorPixel= rayTracer.traceRay(raysPixel);
-                }
-
-
-                imageWriter.writePixel(j, i, colorPixel);
-            }
-        }
-
     }
 
     //endregion
@@ -197,17 +194,9 @@ public class Camera {
      * @param i
      * @return Ray
      */
-    public Ray constructRay(int nX, int nY, int j, int i)
-    {
+    public Ray constructRay(int nX, int nY, int j, int i) {
         Point pCenterVP = p0.add(vTo.scale(distance));
-        double rX = width/nX;
-        double rY = height/nY;
-        double xJ = (j - (nX-1)/2d)*rX;
-        double yI = -(i - (nY-1)/2d)*rY;
-
-        Point pIJ = pCenterVP;
-        if(!isZero(xJ)) { pIJ = pIJ.add(vRight.scale(xJ));}
-        if(!isZero(yI)) {pIJ = pIJ.add(vUp.scale(yI));}
+        Point pIJ = getCenterPixel(pCenterVP, nX, nY, j, i);
 
         return new Ray(p0, pIJ.subtract(p0));
     }
@@ -225,21 +214,37 @@ public class Camera {
     private List<Ray> constructRay(int nX, int nY, int j, int i, int countRay){
         List<Ray> rayList = new ArrayList<>();
         Point pCenterVP = p0.add(vTo.scale(distance));
-        double rX = width/nX;
-        double rY = height/nY;
-        double xJ = (j - (nX-1)/2d)*rX;
-        double yI = -(i - (nY-1)/2d)*rY;
+        double rX = width/ nX;
+        double rY = height/ nY;
 
-        Point pCenterPixel = pCenterVP;
-        if(!isZero(xJ)) { pCenterPixel = pCenterPixel.add(vRight.scale(xJ));}
-        if(!isZero(yI)) {pCenterPixel = pCenterPixel.add(vUp.scale(yI));}
-
+        Point pCenterPixel = getCenterPixel(pCenterVP, nX, nY, j, i);
         rayList.add(new Ray(p0, pCenterPixel.subtract(p0)));
 
         MultipleRay multipleRay = new MultipleRay(vRight, vUp, pCenterPixel, rX, rY, countRay-1);
         rayList.addAll(multipleRay.constructMultipleRay(p0));
 
         return rayList;
+    }
+
+    /**
+     * get center of specific pixel
+     * @param pCenterVP
+     * @param nX
+     * @param nY
+     * @param j
+     * @param i
+     * @return Point
+     */
+    private Point getCenterPixel(Point pCenterVP, int nX, int nY, int j, int i) {
+        double rX = width/ nX;
+        double rY = height/ nY;
+        double xJ = (j - (nX -1)/2d)*rX;
+        double yI = -(i - (nY -1)/2d)*rY;
+
+        Point pCenterPixel = pCenterVP;
+        if(!isZero(xJ)) { pCenterPixel = pCenterPixel.add(vRight.scale(xJ));}
+        if(!isZero(yI)) {pCenterPixel = pCenterPixel.add(vUp.scale(yI));}
+        return pCenterPixel;
     }
 
     //endregion
@@ -249,14 +254,13 @@ public class Camera {
      * @param interval
      * @param color
      */
-    public void printGrid(int interval, Color color)
-    {
+    public void printGrid(int interval, Color color) {
         //check if the value is not null
         if(imageWriter == null)
         {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
 
         //A loop that colors the rows
-        for (int i =0; i<imageWriter.getNy(); i+=interval)
+        for (int i =0; i< imageWriter.getNy(); i+=interval)
         {
             for (int j =0; j<imageWriter.getNx(); j++)
             {
@@ -277,8 +281,7 @@ public class Camera {
     /**
      * Act of delegation
      */
-    public void writeToImage()
-    {
+    public void writeToImage() {
         //check if the value is not null
         if(imageWriter == null)
         {   throw new MissingResourceException("ERROR: one or more values are not Initialized","Camera" , "imageWriter");}
