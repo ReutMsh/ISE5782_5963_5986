@@ -12,7 +12,11 @@ import static primitives.Util.*;
 
 /**
  * Class Camera
- *
+ * save the view plan
+ * render the image
+ * construct ray
+ * move camera
+ * write to image
  * @author Reut and Odelya
  */
 public class Camera {
@@ -28,6 +32,8 @@ public class Camera {
 
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
+
+    private boolean multiThreading = false;
 
     //region get
     public Point getP0() {
@@ -81,6 +87,8 @@ public class Camera {
     }
     //endregion
 
+    //region set
+
     //region set for view plane
     public Camera setVPSize(double width, double height)
     {
@@ -109,7 +117,13 @@ public class Camera {
     }
     //endregion
 
-    //region methods
+    //region set
+    public Camera setMultiThreading(boolean multiThreading) {
+        this.multiThreading = multiThreading;
+        return this;
+    }
+    //endregion
+    //endregion
 
     //region renderImage
 
@@ -119,19 +133,35 @@ public class Camera {
      */
     public void renderImage() {
         renderCheckExcepted();
+        int nY = imageWriter.getNy();
+        int nX = imageWriter.getNx();
 
-        //A loop that colors each pixel in a color that suits it
-        for (int i =0; i<imageWriter.getNy(); i++)
-        {
-            for (int j =0; j<imageWriter.getNx(); j++)
-            {
-               Ray rayPixel= constructRay(imageWriter.getNx() ,imageWriter.getNy() , j, i );
-               Color colorPixel= rayTracer.traceRay(rayPixel);
-               imageWriter.writePixel(j, i, colorPixel);
+        if(multiThreading) { //if multiThreading on
+            int threadsCount = 4;
+            Pixel.initialize(nY, nX, 1);
+            while (threadsCount-- > 0) {
+                new Thread(() -> {
+                    for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone()) {
+                        Ray rayPixel = constructRay(nX, nY, pixel.col, pixel.row);
+                        Color colorPixel = rayTracer.traceRay(rayPixel);
+                        imageWriter.writePixel(pixel.col, pixel.row, colorPixel);
+
+                    }
+                }).start();
+                //Pixel.printPixel();
+            }
+            Pixel.waitToFinish();
+        }
+        else {
+            for (int i =0; i<imageWriter.getNy(); i++) {
+                for (int j = 0; j < imageWriter.getNx(); j++) {
+                    Ray rayPixel = constructRay(nX, nY, j, i);
+                    Color colorPixel = rayTracer.traceRay(rayPixel);
+                    imageWriter.writePixel(j, i, colorPixel);
+                }
+
             }
         }
-
-
     }
 
     /**
@@ -147,21 +177,46 @@ public class Camera {
         int nY = imageWriter.getNy();
         int nX = imageWriter.getNx();
 
-        //A loop that colors each pixel in a color that suits it
+        if(multiThreading) { //if multiThreading on
+            int threadsCount = 4;
+            Pixel.initialize(nY, nX, 1);
+            while (threadsCount-- > 0) {
+                new Thread(() -> {
+                    for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone()) {
+                        List<Ray> raysPixel = constructRay(nX, nY, pixel.col, pixel.row, countRay);
+                        Color colorPixel = rayTracer.traceRay(raysPixel);
 
-        for (int i = 0; i< nY; i++) {
-            for (int j = 0; j< nX; j++)
-            {
-                List<Ray> raysPixel= constructRay(nX, nY, j, i ,countRay);
-                Color colorPixel= rayTracer.traceRay(raysPixel);
+                        if (!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
+                            raysPixel = constructRay(nX, nY, pixel.col, pixel.row, countRay * countRay);
+                            colorPixel = rayTracer.traceRay(raysPixel);
+                        }
 
-                if(!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
-                    raysPixel= constructRay(nX, nY, j, i ,countRay*countRay);
-                    colorPixel= rayTracer.traceRay(raysPixel);
+                        imageWriter.writePixel(pixel.col, pixel.row, colorPixel);
+                       // Pixel.printPixel();
+                    }
+                }).start();
+            }
+
+            Pixel.waitToFinish();
+
+
+        }
+
+        else {
+            for (int i = 0; i < nY; i++) {
+                for (int j = 0; j < nX; j++) {
+                    List<Ray> raysPixel = constructRay(nX, nY, j, i, countRay);
+                    Color colorPixel = rayTracer.traceRay(raysPixel);
+
+                    if (!colorPixel.isClosesColor(rayTracer.traceRay(raysPixel.get(0)))) {
+                        raysPixel = constructRay(nX, nY, j, i, countRay * countRay);
+                        colorPixel = rayTracer.traceRay(raysPixel);
+                    }
+
+
+                    imageWriter.writePixel(j, i, colorPixel);
+
                 }
-
-
-                imageWriter.writePixel(j, i, colorPixel);
             }
         }
 
@@ -353,7 +408,6 @@ public class Camera {
 
         return new Vector(matrixVectorToMove.get(0,0), matrixVectorToMove.get(1,0), matrixVectorToMove.get(2,0)).normalize();
     }
-    //endregion
     //endregion
 
 }

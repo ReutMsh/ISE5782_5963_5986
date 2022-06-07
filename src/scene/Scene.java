@@ -20,6 +20,10 @@ public class Scene {
     public AmbientLight ambientLight;
     public Geometries geometries;
     public List<LightSource> lights =  new LinkedList<>();
+    /**
+     * count of shadow ray
+     */
+    public double softShadow = 1;
 
     //region constructor
     /**
@@ -76,6 +80,19 @@ public class Scene {
         return this;
     }
 
+    /**
+     * set soft shadow
+     * if the shadow will be soft.
+     * @param softShadow
+     * @return
+     */
+    public Scene setSoftShadow(double softShadow) {
+        if(softShadow <= 0)
+            this.softShadow = 1;
+        else
+            this.softShadow = softShadow;
+        return this;
+    }
     //endregion
 
 }

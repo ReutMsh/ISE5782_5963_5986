@@ -65,7 +65,13 @@ public class Cylinder extends Tube{
         Point o = ray.getP0();
         Vector d = ray.getDir();
         Vector local_z = axisRay.getDir().normalize();
-        Vector local_x = d.crossProduct(local_z).normalize();
+        Vector local_x;
+        try {
+            local_x = d.crossProduct(local_z).normalize();
+        }
+        catch (Exception e){
+            return null;
+        }
         Vector local_y = local_z.crossProduct(local_x).normalize();
         Vector w = o.subtract(axisRay.getP0());
         Vector o_local = new Vector(w.dotProduct(local_x), w.dotProduct(local_y), w.dotProduct(local_z));

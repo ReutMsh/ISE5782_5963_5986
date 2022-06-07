@@ -16,7 +16,7 @@ public class PointLight extends Light implements LightSource{
     /**
      * size of the opening angle for getBlackBoard.
      */
-    protected static final double ALFA = 0.3;
+    protected static final double ALFA = 0.15;
 
     protected Point position;
     private double kC;

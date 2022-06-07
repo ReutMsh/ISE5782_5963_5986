@@ -58,7 +58,7 @@ public class LightsTests {
         ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 500, 500);
         camera1.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene1)) //
-                .renderImage(); //
+                .renderImage(9); //
         camera1.writeToImage(); //
     }
 
@@ -73,7 +73,7 @@ public class LightsTests {
         ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
         camera1.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene1)) //
-                .renderImage(); //
+                .renderImage(9); //
         camera1.writeToImage(); //
     }
 
@@ -88,7 +88,7 @@ public class LightsTests {
         ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
         camera1.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene1)) //
-                .renderImage(); //
+                .renderImage(9); //
         camera1.writeToImage(); //
     }
 
@@ -113,12 +113,12 @@ public class LightsTests {
         ImageWriter imageWriter = new ImageWriter("lightSphereMultiLight", 500, 500);
         camera1.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene1)) //
-                .renderImage(); //
+                .renderImage(9); //
         camera1.writeToImage(); //
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a directional light
+     * Produce a picture of two triangles lighted by a directional light
      */
     @Test
     public void trianglesDirectional() {
@@ -132,6 +132,9 @@ public class LightsTests {
         camera2.writeToImage(); //
     }
 
+    /**
+     * Produce a picture of a two polygon lighted by a directional light
+     */
     @Test
     public void polygonsDirectional() {
         scene2.geometries.add(polygon1, polygon2);
@@ -174,6 +177,9 @@ public class LightsTests {
         camera2.writeToImage(); //
     }
 
+    /**
+     * Produce a picture of  two triangles lighted by a multi light
+     */
     @Test
     void testTriangleMultiLight() {
         scene2.geometries.add(triangle1, triangle2);
@@ -214,7 +220,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a narrow spot light
+     * Produce a picture of two triangles lighted by a narrow spotlight
      */
     @Test
     public void trianglesSpotSharp() {
@@ -228,6 +234,9 @@ public class LightsTests {
         camera2.writeToImage(); //
     }
 
+    /**
+     * Produce a picture of two triangles lighted by a narrow spotlight
+     */
     @Test
     public void polygonsSpotSharp() {
         scene2.geometries.add(polygon1, polygon2);

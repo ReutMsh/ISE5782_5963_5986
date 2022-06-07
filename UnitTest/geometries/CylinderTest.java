@@ -58,6 +58,26 @@ class CylinderTest {
         Ray ray = new Ray(new Point(1, 1, 2), new Vector(1, 1, 0));
         assertNull(cylinder.findGeoIntersections(ray, 4), "TC03  findGeoIntersectionsHelper with ray that cut in zero point");
 
+        // =============== Boundary Values Tests ==================
 
+        // TC11: ray is parallel to axisRay and is inside the cylinder
+        ray = new Ray(new Point(-600,100,0), new Vector(1,0,0));
+        assertNull(cylinder.findIntersections(ray), "ray is parallel to axisRay and is inside the cylinder- found an intersection");
+
+        // TC12: ray is parallel to axisRay and is on the cylinder
+        ray = new Ray(new Point(-200,-200,0), new Vector(1,0,0));
+        assertNull(cylinder.findIntersections(ray), "ray is parallel to axisRay and is on the cylinder- found an intersection");
+
+        // TC13: ray is parallel to axisRay and is outside the cylinder
+        ray = new Ray(new Point(600,0,500), new Vector(1,0,0));
+        assertNull(cylinder.findIntersections(ray), "ray is parallel to axisRay and is outside the cylinder- found an intersection");
+
+        // TC14: ray is orthogonal to axisRay and intersects the cylinder
+        ray = new Ray(new Point(0,600,0), new Vector(0,-1,0));
+        assertNull( cylinder.findIntersections(ray), "ray is orthogonal to axisRay and intersects the cylinder- found an intersection");
+
+        // TC15: ray is orthogonal to axisRay and does not intersect the cylinder
+        ray = new Ray(new Point(-800,0,0), new Vector(0,-1,0));
+        assertNull(cylinder.findIntersections(ray), "ray is orthogonal to axisRay and intersects the cylinder- found wrong number of intersection");
     }
 }
