@@ -1,6 +1,4 @@
 package primitives;
-import java.util.Objects;
-import static primitives.Double3.ZERO;
 
 /**
  * Class Point define point
@@ -20,9 +18,9 @@ public class Point {
     //region constructor
     /**
      * constructor
-     * @param x
-     * @param y
-     * @param z
+     * @param x - value of x.
+     * @param y - value of y.
+     * @param z - value of z.
      */
     public Point(double x, double y, double z) {
         xyz = new Double3(x,y,z);
@@ -30,7 +28,7 @@ public class Point {
 
     /**
      * constructor
-     * @param xyz
+     * @param xyz - value of x,y,z.
      */
     public Point(Double3 xyz) {
         this.xyz = xyz;
@@ -64,8 +62,8 @@ public class Point {
 
     /**
      * build vector with 2 points
-     * @param p1
-     * @return Vector
+     * @param p1 - point to subtract.
+     * @return vector - this subtracts p1.
      */
     public Vector subtract(Point p1) {
         return new Vector(xyz.subtract(p1.xyz));
@@ -73,8 +71,8 @@ public class Point {
 
     /**
      *add vector to the point
-     * @param vector
-     * @return Point
+     * @param vector - vector to add.
+     * @return point = point +  vector.
      */
     public Point add(Vector vector) {
         return new Point(xyz.add(vector.xyz));
@@ -82,8 +80,8 @@ public class Point {
 
     /**
      * compute distance^2 between this and p1
-     * @param p1
-     * @return double
+     * @param p1 - point to compute distanceSquared from this.
+     * @return distance^2 between this and p1
      */
     public double distanceSquared(Point p1){
         Double3 subPoint = xyz.subtract(p1.xyz);
@@ -93,18 +91,17 @@ public class Point {
 
     /**
      * compute distance between this and p1
-     * @param p1
-     * @return double
+     * @param p1 - point to compute distance from this.
+     * @return distance between this and p1
      */
     public double distance (Point p1){
         return Math.sqrt(this.distanceSquared(p1));
     }
 
     /**
-     *Finding a point that is at a distance of 't' from the point in the direction of a specific vector.
-     * @param direction
-     * @param t
-     * @return Point
+     * @param direction - direction
+     * @param t -  the distance to add the point.
+     * @return a point that is at a distance of 't' from the point in the direction of a specific vector.
      */
     public Point getPoint(Vector direction , double t) {
         try {
@@ -116,10 +113,10 @@ public class Point {
     }
 
     /**
-     * Move the point in DELTA size and in the direction of Vector
-     * @param direction
-     * @param n
-     * @return Point
+     * Move the point in DELTA size and in the direction of Vector.
+     * @param direction - to check if to add DELTA or -DELTA.
+     * @param n - direction of the vector.
+     * @return point in DELTA size and in the direction of Vector.
      */
     public Point addDeltaPoint(Vector direction, Vector n) {
         return this.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
