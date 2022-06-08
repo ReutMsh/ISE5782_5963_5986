@@ -7,38 +7,38 @@ import renderer.BlackBoard;
 
 /**
  * interface LightSource
- * define all the light
+ * define all the light (include ambientLight)
  * @author Reut and odelya
  */
 public interface LightSource {
 
     /**
      * return the intensity
-     * @param p
-     * @return Color
+     * @param p - the point to get intensity
+     * @return the intensity in specific point.
      */
-    public Color getIntensity(Point p);
+    Color getIntensity(Point p);
 
     /**
-     * return the director(vector) between light and point on the geometry
+     * return the director(vector) between light and point on the geometry.
      * the vector is normalised
-     * @param p
-     * @return Vector
+     * @param p - the point to get direction.
+     * @return the director(vector) between light and point.
      */
-    public Vector getL(Point p);
+    Vector getL(Point p);
 
     /**
-     *return the distance between point and lightSource
-     * @param point
-     * @return double
+     * return the distance between point and lightSource
+     * @param point - the point to get distance from the light.
+     * @return distance between point and lightSource.
      */
-    public double getDistance(Point point);
+     double getDistance(Point point);
 
     /**
      * build the blackBoard in point
      * the BlackBoard defines area per light.
-     * @param point
-     * @return BlackBoard
+     * @param point - the blackBoard is per point.
+     * @return the blackBoard per specific point.
      */
-    public BlackBoard getBlackBoard(Point point);
+    BlackBoard getBlackBoard(Point point);
 }
