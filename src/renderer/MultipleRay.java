@@ -26,12 +26,12 @@ public class MultipleRay {
     /**
      * constructor
      * (for Anti-Aliasing)
-     * @param vX
-     * @param vY
-     * @param cPoint
-     * @param rX
-     * @param rY
-     * @param countRay
+     * @param vX - axis x of the board.
+     * @param vY - axis y of the board.
+     * @param cPoint - center point.
+     * @param rX - length the board.
+     * @param rY - width the board.
+     * @param countRay - count ray to construct.
      */
     public MultipleRay(Vector vX, Vector vY, Point cPoint, double rX, double rY, double countRay) {
         blackBoard = new BlackBoard(vX, vY, cPoint, rX, rY);
@@ -41,8 +41,8 @@ public class MultipleRay {
     /**
      * constructor
      * (for soft Shadow)
-     * @param blackBoard
-     * @param countRay
+     * @param blackBoard - the board to construct the rays.
+     * @param countRay - count ray to construct.
      */
     public MultipleRay(BlackBoard blackBoard, double countRay){
         this.blackBoard = blackBoard;
@@ -52,8 +52,8 @@ public class MultipleRay {
     /**
      * construct multi rays from start point to
      * random points in range nX*nY around center point.
-     * @param startPoint
-     * @return List<Ray>
+     * @param startPoint - p0 of rays
+     * @return list of construct rays.
      */
     public List<Ray> constructMultipleRay(Point startPoint){
         if(blackBoard == null)

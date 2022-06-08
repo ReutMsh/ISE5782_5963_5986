@@ -70,9 +70,9 @@ public class Camera {
      * constructor
      * If the vector are not vertical- throw exception
      * Build vRight and normalize all the vectors
-     * @param p0
-     * @param vTo
-     * @param vUp
+     * @param p0 - camera location.
+     * @param vTo - the direction that camera lock for.
+     * @param vUp - the direction of up the camera.
      */
     public Camera(Point p0, Vector vTo, Vector vUp) {
         this.p0 = p0;
@@ -242,12 +242,12 @@ public class Camera {
 
     //region constructRay
     /**
-     * build ray from the camera to center pixel desired
-     * @param nX
-     * @param nY
-     * @param j
-     * @param i
-     * @return Ray
+     * build ray from the camera to center specific pixel.
+     * @param nX - num pixels in axis x.
+     * @param nY - num pixels in axis y.
+     * @param j - x of this pixel.
+     * @param i - y of this pixel.
+     * @return ray from the camera to center pixel.
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
         Point pCenterVP = p0.add(vTo.scale(distance));
@@ -259,12 +259,12 @@ public class Camera {
     /**
      * for Anti-Aliasing
      * build list of rays from the camera to random point in pixel desired.
-     * @param nX
-     * @param nY
-     * @param j
-     * @param i
-     * @param countRay
-     * @return
+     * @param nX - num pixels in axis x.
+     * @param nY - num pixels in axis y.
+     * @param j - x of this pixel.
+     * @param i - y of this pixel.
+     * @param countRay - num ray to construct.
+     * @return list of rays from p0 to random point on the pixel.
      */
     private List<Ray> constructRay(int nX, int nY, int j, int i, int countRay){
         List<Ray> rayList = new ArrayList<>();
@@ -283,12 +283,12 @@ public class Camera {
 
     /**
      * get center of specific pixel
-     * @param pCenterVP
-     * @param nX
-     * @param nY
-     * @param j
-     * @param i
-     * @return Point
+     * @param pCenterVP - center of view plan.
+     * @param nX - num pixels in axis x.
+     * @param nY - num pixels in axis y.
+     * @param j - x of this pixel.
+     * @param i - y of this pixel.
+     * @return center of this pixel.
      */
     private Point getCenterPixel(Point pCenterVP, int nX, int nY, int j, int i) {
         double rX = width/ nX;
@@ -306,8 +306,8 @@ public class Camera {
 
     /**
      * Creates a grid of lines on the image - Grid
-     * @param interval
-     * @param color
+     * @param interval - the interval between every row/col.
+     * @param color - color of grid.
      */
     public void printGrid(int interval, Color color) {
         //check if the value is not null
@@ -347,6 +347,12 @@ public class Camera {
     //region move camera
 
     //region move around vTo
+
+    /**
+     * move camera around axis vTo;
+     * @param angle - how many move around axis vTo (radians);
+     * @return this (builder)
+     */
     public Camera moveAroundVTo(double angle){
         vRight = moveCameraAroundVector(vTo, vRight, vUp, angle);
         vUp = vRight.crossProduct(vTo).normalize();
@@ -356,6 +362,12 @@ public class Camera {
 //endregion
 
     //region move around vUp
+
+    /**
+     * move camera around axis vUp;
+     * @param angle - how many move around axis vUp (radians);
+     * @return this (builder)
+     */
     public Camera moveAroundVUp(double angle){
         vTo = moveCameraAroundVector(vUp, vTo, vRight, angle);
         vRight = vTo.crossProduct(vUp).normalize();
@@ -364,6 +376,11 @@ public class Camera {
 //endregion
 
     //region move around vRight
+    /**
+     * move camera around axis vRight;
+     * @param angle - how many move around axis vRight (radians);
+     * @return this (builder)
+     */
     public Camera moveAroundVRight(double angle){
         vUp = moveCameraAroundVector(vRight, vUp, vTo, angle);
         vTo = vUp.crossProduct(vRight).normalize();
@@ -371,6 +388,14 @@ public class Camera {
     }
 //endregion
 
+    /**
+     * move camera around axis
+     * @param rotationVector - axis vector.
+     * @param vectorToMove - the vector that will move.
+     * @param orthogonalVector - the third vector
+     * @param angle - how many move around axis vRight (radians);
+     * @return vector to move after the move.
+     */
     private Vector moveCameraAroundVector(Vector rotationVector, Vector vectorToMove, Vector orthogonalVector, double angle) {
         SimpleMatrix matrixP = new SimpleMatrix(3,3);
         matrixP.set(0,0, rotationVector.getX());
