@@ -23,8 +23,8 @@ public abstract class Intersectable {
 
         /**
          * constructor
-         * @param geometry
-         * @param point
+         * @param geometry - the geometry of the point
+         * @param point - the specific point on the geometry.
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
@@ -54,10 +54,9 @@ public abstract class Intersectable {
 
     //region methods
     /**
-     * Abstract method - find list of point that the geometry
-     * cut with the ray
-     * @param ray
-     * @return List<Point>
+     * Abstract method - find list of point that the ray intersection the geometry.
+     * @param ray - the ray to find the intersection with the geometry.
+     * @return list of point that the ray intersection the geometry
      */
     public final List<Point> findIntersections(Ray ray)
     {
@@ -67,13 +66,11 @@ public abstract class Intersectable {
     }
 
     /**
-     * find list of GeoPoint that the geometry
-     * cut with the ray
-     * and the distance between p0 and point < maxDistance
+     * call to findGeoIntersectionsHelper - abstract method.
      * NVI
-     * @param ray
-     * @param maxDistance
-     * @return List<GeoPoint>
+     * @param ray - the ray to find the intersection with the geometry.
+     * @param maxDistance - the max distance between point and p0(start ray)
+     * @return list of GeoPoint that the ray intersection the geometry, and the distance between p0(start ray)  and point < maxDistance.
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance)
     {
@@ -82,10 +79,10 @@ public abstract class Intersectable {
 
     /**
      * Abstract internal method for finding a point of intersection with geometries
-     * and the distance between p0 and point < maxDistance
-     * @param ray
-     * @param maxDistance
-     * @return List<GeoPoint>
+     * and the distance between p0(start ray) and point < maxDistance
+     * @param ray - the ray to find the intersection with the geometry.
+     * @param maxDistance - the max distance between point and p0(start ray)
+     * @return list of GeoPoint that the ray intersection the geometry, and the distance between p0(start ray)  and point < maxDistance.
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
     //endregion

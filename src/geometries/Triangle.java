@@ -12,6 +12,7 @@ import static primitives.Util.*;
 /**
  * class Triangle
  * extends Polygon
+ * build polygon with 3 vertex.
  * @author Reut and Odelya
  */
 public class Triangle extends Polygon{
@@ -20,10 +21,12 @@ public class Triangle extends Polygon{
     /***
      * constructor
      * get 3 points
-     * @param vertices
+     * @param point1 - one vertex
+     * @param point2 - second vertex
+     * @param point3 - third vertex
      */
-    public Triangle(Point... vertices) {
-        super(vertices);
+    public Triangle(Point point1, Point point2, Point point3) {
+        super(point1, point2, point3);
     }
     //endregion
 
@@ -57,7 +60,7 @@ public class Triangle extends Polygon{
 
         if((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0))
         {
-            List<GeoPoint> geoPointsTriangle = new ArrayList<GeoPoint>();
+            List<GeoPoint> geoPointsTriangle = new ArrayList<>();
             for (GeoPoint geoPoint: geoPointListFromPlane)
             {
                 geoPointsTriangle.add(new GeoPoint(this , geoPoint.point));

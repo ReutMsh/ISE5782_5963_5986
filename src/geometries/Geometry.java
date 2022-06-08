@@ -29,9 +29,9 @@ public abstract class Geometry extends Intersectable  {
     //region set
 
     /**
-     * setEmission
-     * @param emission
-     * @return Geometry
+     * builder setEmission
+     * @param emission - the emission of the geometry.
+     * @return this (builder)
      */
     public Geometry setEmission(Color emission) {
         this.emission = emission;
@@ -39,9 +39,9 @@ public abstract class Geometry extends Intersectable  {
     }
 
     /**
-     * setMaterial
-     * @param material
-     * @return Geometry
+     * builder setMaterial
+     * @param material - the material of the geometry.
+     * @return this (builder)
      */
     public Geometry setMaterial(Material material) {
         this.material = material;
@@ -52,9 +52,9 @@ public abstract class Geometry extends Intersectable  {
     //region methods
     /***
      * abstract method
-     * get normal in this point
-     * @param p1
-     * @return Vector
+     * get normal of the geometry in specific point
+     * @param p1 - specific point to get the normal.
+     * @return vector normal.
      */
     public abstract Vector getNormal(Point p1);
 

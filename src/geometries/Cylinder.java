@@ -22,9 +22,9 @@ public class Cylinder extends Tube{
 
     /**
      * constructor
-     * @param axisRay
-     * @param radius
-     * @param height
+     * @param axisRay - the axis of the cylinder.
+     * @param radius - the radius of the cylinder.
+     * @param height - the height of the cylinder
      */
     public Cylinder(Ray axisRay, double radius, double height) {
         super(axisRay, radius);
