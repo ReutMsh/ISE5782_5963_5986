@@ -12,19 +12,19 @@ import java.util.List;
  */
 public class ShapesScene extends Intersectable {
 
-    private Material standMaterial;
-    private Color standColor;
-    private Geometries geometriesShapes;
+    private final Material standMaterial;
+    private final Color standColor;
+    private final Geometries geometriesShapes;
 
     /**
      * stand constructor
-     * build one stand(polygons) of the game
-     * @param frontDown
-     * @param hindDown
-     * @param hindUp
-     * @param frontUp
-     * @param material
-     * @param color
+     * build one stand(polygons) of the game.
+     * @param frontDown - front down point.
+     * @param hindDown - hind down point.
+     * @param hindUp - hind up point.
+     * @param frontUp - front up point.
+     * @param material - the material of ShapesScene.
+     * @param color - the color of ShapesScene.
      */
     public ShapesScene(Point frontDown, Point hindDown, Point hindUp, Point frontUp, Material material, Color color){
         geometriesShapes = new Geometries();
@@ -53,11 +53,11 @@ public class ShapesScene extends Intersectable {
     /**
      *  beads constructor
      *  Constructs some adjacent beads(spheres) in the vector direction
-     * @param startPoint
-     * @param direction
-     * @param radius
-     * @param material
-     * @param color
+     * @param startPoint - point to start the bead sequence.
+     * @param direction - the direction of bead sequence.
+     * @param radius - radius of ani sphere.
+     * @param material - spheres material
+     * @param color - spheres color.
      */
     public ShapesScene(Point startPoint, Vector direction, double radius, int countSpheres, Material material, Color color){
         geometriesShapes = new Geometries();
@@ -75,12 +75,12 @@ public class ShapesScene extends Intersectable {
      * cylinder constructor
      * builds some parallel cylinders in the direction of the vector,
      * each starting at one of the points in the array, respectively.
-     * @param direction
-     * @param radius
-     * @param length
-     * @param material
-     * @param color
-     * @param startPoints
+     * @param direction - the direction of the cylinders.
+     * @param radius - cylinders radius.
+     * @param length - cylinders length.
+     * @param material - cylinders material.
+     * @param color - cylinders color.
+     * @param startPoints - list of point, every point is start point of another cylinder.
      */
     public ShapesScene(Vector direction, double radius , double length, Material material, Color color, Point... startPoints){
         geometriesShapes = new Geometries();
