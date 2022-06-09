@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import lighting.AmbientLight;
 import geometries.*;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 import static java.awt.Color.*;
 
