@@ -31,7 +31,6 @@ public class RayTracerBasic extends RayTracerBase {
     //region constructor
     /**
      * constructor
-     * @param scene
      */
     public RayTracerBasic(Scene scene) {
         super(scene);
@@ -46,9 +45,9 @@ public class RayTracerBasic extends RayTracerBase {
      * find the color of the pixel.
      * add Only once the ambientLight and call to calcColor that call
      * to calcGlobalEffects and calcLocalEffects.
-     * @param geoPoint
-     * @param ray
-     * @return Color
+     * @param geoPoint - closes point to start ray.
+     * @param ray - the ray to geoPoint.
+     * @return color of the point that ray intersection the view plan.
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
         return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
@@ -58,8 +57,11 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      * method of finding the color of a pixel
      * call to calcGlobalEffects
-     * @param geoPoint
-     * @return Color
+     * @param geoPoint - closes point to start ray.
+     * @param ray - the ray to geoPoint.
+     * @param level - max level to find Transparencies / reflections.
+     * @param k - Percentage of initial impact of transparencies / reflections
+     * @return color of the point that ray intersection the view plan.
      */
     private Color calcColor(GeoPoint geoPoint , Ray ray, int level, Double3 k) {
 
@@ -75,10 +77,10 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * find the local color of the pixel
-     * @param geoPointIntersection
-     * @param ray
-     * @param k
-     * @return Color
+     * @param geoPointIntersection - closes point to start ray.
+     * @param ray - the ray to geoPoint.
+     * @param k - Percentage of initial impact of transparencies / reflections
+     * @return color of the local effect(shadow, specular, diffusive)
      */
     private Color calcLocalEffects(GeoPoint geoPointIntersection, Ray ray, Double3 k) {
         Vector v = ray.getDir();
@@ -124,18 +126,15 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * compute the color that influenced from specific light
-     * @param lightRay
-     * @param geoPointIntersection
-     * @param lightSource
-     * @param k
-     * @param kd
-     * @param l
-     * @param n
-     * @param nl
-     * @param ks
-     * @param v
-     * @param nShininess
-     * @return Color
+     * @param lightRay -ray between the light and geoPointIntersection
+     * @param geoPointIntersection - closes point to start ray(camera ray).
+     * @param k - Percentage of initial impact of transparencies / reflections
+     * @param kd - geoPointIntersection.kd.
+     * @param l - direction of light.
+     * @param ks - geoPointIntersection.ks.
+     * @param v - camera ray.dir.
+     * @param nShininess - material.nShininess
+     * @return color from specific light.
      */
     private Color getColorPerLight(Ray lightRay, GeoPoint geoPointIntersection, LightSource lightSource, Double3 k, Double3 kd, Vector l, Vector n, double nl, Double3 ks, Vector v, int nShininess) {
         Double3 ktr = transparency(lightRay, geoPointIntersection.point, lightSource);
@@ -152,10 +151,9 @@ public class RayTracerBasic extends RayTracerBase {
      *check if the pixel unshaded
      * and how much it is shaded
      * *check about specific ray (from multi ray)
-     * @param ray
-     * @param point
-     * @param lightSource
-     * @return Double3
+     * @param ray - the ray to geoPoint(camera ray)
+     * @param point - closes point to start ray.
+     * @return ktr = level transparency of the geometries between point and lightSource (ktr low-> the point shaded)
      */
     private Double3 transparency(Ray ray, Point point, LightSource lightSource){
         double lightDistance = lightSource.getDistance(point);
@@ -175,11 +173,9 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      * refactor - > transparency
      * check if the pixel unshaded
-     * @param geoPoint
-     * @param l
-     * @param n
-     * @param lightSource
-     * @return boolean
+     * @param geoPoint - closes point to start ray.
+     * @param l - direction of light.
+     * @return if the point unshaded.
      */
     private boolean unshaded(GeoPoint geoPoint, Vector l, Vector n, LightSource lightSource) {
         Vector lightDirection = l.scale(-1); // from point to light source
@@ -201,11 +197,10 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      *compute the diffuse effect of light on the pixel.
-     * @param kd
-     * @param l
-     * @param n
-     * @param lightIntensity
-     * @return Color
+     * @param kd - geoPointIntersection.kd.
+     * @param l - direction of light.
+     * @param lightIntensity - lightSource.getIntensity * ktr;
+     * @return the diffuse color.
      */
     private Color calcDiffusive(Double3 kd, Vector l,Vector n, Color lightIntensity, double nl){
         if(nl < 0 )
@@ -217,13 +212,11 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      *compute the specular effect of light on the pixel.
      * (The reflected light)
-     * @param ks
-     * @param l
-     * @param n
-     * @param v
-     * @param nShininess
-     * @param lightIntensity
-     * @return Color
+     * @param ks - geoPointIntersection.ks.
+     * @param l - direction of light.
+     * @param v - camera ray.dir.
+     * @param lightIntensity - lightSource.getIntensity * ktr;
+     * @return the specular color.
      */
     private Color calcSpecular(Double3 ks, Vector l,Vector n, Vector v, int nShininess, Color lightIntensity, double ln){
         Vector r  = l.add(n.scale(ln*-2)).normalize();
@@ -240,9 +233,11 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      * Recursive func
      *compute the global color
-     * @param geoPoint
-     * @param ray
-     * @return Color
+     * @param geoPoint - closes point to start ray.
+     * @param ray - the ray to geoPoint.
+     * @param level - max level to find Transparencies / reflections.
+     * @param k - Percentage of initial impact of transparencies / reflections
+     * @return global color. (reflected, refracted)
      */
     private Color calcGlobalEffects(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Color color = Color.BLACK;
@@ -265,11 +260,10 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * the func that call to Recursive calcGlobalEffects
-     * @param ray
-     * @param level
-     * @param kx
-     * @param kkx
-     * @return
+     * @param level - level of recursive.
+     * @param kx - kr/ kt
+     * @param kkx - kkr/ kkt
+     * @return global color. (reflected, refracted).
      */
     private Color calcGlobalEffects(Ray ray, int level, Double3 kx, Double3 kkx){
         GeoPoint geoPoint = findClosestIntersection(ray);
@@ -278,10 +272,7 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * build the reflected ray
-     * @param n
-     * @param point
-     * @param v
-     * @return Ray
+     * @return reflected ray.
      */
     private Ray constructReflectedRay(Vector n, Point point, Vector v) {
         double vn = v.dotProduct(n);
@@ -293,8 +284,8 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * find the close intersection GeoPoint
-     * @param ray
-     * @return GeoPoint
+     * @param ray - the ray that find intersection.
+     * @return closes point (to start ray) .
      */
     private GeoPoint findClosestIntersection(Ray ray){
         List<GeoPoint> intersectionGeoPoint = this.scene.geometries.findGeoIntersections(ray, Double.POSITIVE_INFINITY);

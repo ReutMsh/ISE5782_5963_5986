@@ -91,8 +91,6 @@ public class Polygon extends Geometry {
 	}
 
 
-
-
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		//check if the ray intersection the plan
@@ -121,13 +119,13 @@ public class Polygon extends Geometry {
 		}
 		Vector v1 = vertices.get(0).subtract(vertices.get(size-1)).normalize();
 		Vector v2 = vertices.get(size-1).subtract(p.point).normalize();
-		//if v1==v2-> the point on one of the edge or edge's continuation -> return null
+		//if v1==v2-> the point on one of the edge or edge's continuation.
 		if(v1.equals(v2.scale(-1)) || v1.equals(v2))
 			return null;
 		vectorToCheckDirection.add(v1.crossProduct(v2));
 
 		if (checkTheVectorsDirection(vectorToCheckDirection)){
-			List<GeoPoint> geoPointsPolygon = new ArrayList<GeoPoint>();
+			List<GeoPoint> geoPointsPolygon = new ArrayList<>();
 			for (GeoPoint geoPoint: geoPointListFromPlane)
 			{
 				geoPointsPolygon.add(new GeoPoint(this , geoPoint.point));
@@ -141,8 +139,8 @@ public class Polygon extends Geometry {
 
 	/**
 	 * return if all the vectors in the same direction
-	 * @param vectorToCheckDirection
-	 * @return boolean
+	 * @param vectorToCheckDirection - list of vectors to check them direction.
+	 * @return if all the vectors in the same direction.
 	 */
 	private boolean checkTheVectorsDirection(List<Vector> vectorToCheckDirection){
 		for (Vector vector:vectorToCheckDirection) {

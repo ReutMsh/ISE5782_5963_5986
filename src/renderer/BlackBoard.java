@@ -20,25 +20,25 @@ public class BlackBoard {
 
     /**
      * constructor for soft shadow
-     * @param alfa
-     * @param distance
-     * @param cPoint
+     * @param alfa - size of the opening angle for getBlackBoard.
+     * @param distance - distance of the board from p0;
+     * @param cPoint - center of board.
      */
     public BlackBoard(double alfa, double distance, Vector directionRay, Point cPoint) {
         centerPoint = cPoint;
-        vX = directionRay.minD();
+        vX = directionRay.verticalVector();
         vY = directionRay.crossProduct(vX);
         rX = distance*Math.tan(alfa);
-        rY = rX;
+        rY = rX; //rx==ry
     }
 
     /**
      * constructor for Anti-Aliasing
-     * @param vX
-     * @param vY
-     * @param cPoint
-     * @param rX
-     * @param rY
+     * @param vX - axis x of the board.
+     * @param vY - axis y of the board.
+     * @param cPoint - center point.
+     * @param rX - length the board.
+     * @param rY - width the board.
      */
     public BlackBoard(Vector vX, Vector vY, Point cPoint, double rX, double rY) {
         centerPoint = cPoint;

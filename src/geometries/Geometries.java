@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Ray;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,21 +19,19 @@ public class Geometries extends Intersectable {
     //region constructor
 
     /**
-     * constructor
+     * default constructor
      */
     public Geometries() {
         geometries = new LinkedList<>();
     }
 
     /**
-     * constructor
-     * @param geometries
+     * constructor that get geometries to list
+     * @param geometries - some geometries to add to geometries list.
      */
     public Geometries(Intersectable... geometries){
         this.geometries = new LinkedList<>();
-        for (Intersectable geometry : geometries) {
-            this.geometries.add(geometry);
-        }
+        Collections.addAll(this.geometries, geometries);
     }
 
     //endregion
@@ -55,12 +54,10 @@ public class Geometries extends Intersectable {
 
     /**
      * Add geometry to the list
-     * @param geometries
+     * @param geometries - some geometries to add to the geometries list.
      */
     public void add(Intersectable... geometries){
-        for (Intersectable geometry : geometries) {
-            this.geometries.add(geometry);
-        }
+        Collections.addAll(this.geometries, geometries);
     }
     //endregion
 }

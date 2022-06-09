@@ -27,8 +27,8 @@ public class PointLight extends Light implements LightSource{
 
     /**
      * constructor (use super constructor)
-     * @param intensity
-     * @param position
+     * @param intensity  - the light intensity.
+     * @param position -  - the light point.
      */
     public PointLight(Color intensity, Point position) {
         super(intensity);
@@ -43,9 +43,9 @@ public class PointLight extends Light implements LightSource{
     //region setters
 
     /**
-     * set kC
-     * @param kC
-     * @return PointLight
+     * builder set kC
+     * @param kC - attenuation coefficient of light (const).
+     * @return this(builder)
      */
     public PointLight setKC(double kC) {
         this.kC = kC;
@@ -53,9 +53,9 @@ public class PointLight extends Light implements LightSource{
     }
 
     /**
-     * set kL
-     * @param kL
-     * @return PointLight
+     * builder set kL
+     * @param kL - attenuation coefficient of light(Linear).
+     * @return (builder)
      */
     public PointLight setKL(double kL) {
         this.kL = kL;
@@ -63,9 +63,9 @@ public class PointLight extends Light implements LightSource{
     }
 
     /**
-     * set kQ
-     * @param kQ
-     * @return PointLight
+     * builder set kQ
+     * @param kQ - attenuation coefficient of light(Squares)
+     * @return (builder)
      */
     public PointLight setKQ(double kQ) {
         this.kQ = kQ;

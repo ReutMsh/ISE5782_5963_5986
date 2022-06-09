@@ -18,7 +18,7 @@ public abstract class RayTracerBase  {
     //region constructor
     /**
      * constructor
-     * @param scene
+     * @param scene - save all the information of scene.
      */
     public RayTracerBase(Scene scene) {
         this.scene = scene;
@@ -28,8 +28,8 @@ public abstract class RayTracerBase  {
     /**
      * abstract method
      * Find the color of the intersection point
-     * @param ray
-     * @return Color
+     * @param ray - pixel ray - found the color of the pixel.
+     * @return color of pixel (that ray intersection it).
      */
     public abstract Color traceRay(Ray ray);
 
@@ -37,8 +37,8 @@ public abstract class RayTracerBase  {
      * abstract method
      * for Anti-Aliasing
      * get list of Ray, find the average color between all the color of intersection points
-     * @param rayList
-     * @return Color
+     * @param rayList - pixel rays - found the color of the pixel.
+     * @return color of pixel (that rays intersection it).
      */
     public abstract Color traceRay(List<Ray> rayList);
 

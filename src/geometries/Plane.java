@@ -21,9 +21,9 @@ public class Plane extends Geometry {
     //region constructors
     /**
      * constructor
-     * normalize the normal
-     * @param q0
-     * @param normal
+     * normalize the normal.
+     * @param q0 - point on the plan.
+     * @param normal - normal to the plan.
      */
     public Plane(Point q0, Vector normal) {
         this.q0 = q0;
@@ -35,9 +35,9 @@ public class Plane extends Geometry {
      * found the normal from 3 points
      * check if the 3 point can build plan
      * throw exception from vector if the 3 point can't build a plan
-     * @param p1
-     * @param p2
-     * @param p3
+     * @param p1 - point1
+     * @param p2 - point2
+     * @param p3 - point3
      */
     public Plane(Point p1, Point p2, Point p3) {
 
@@ -95,10 +95,9 @@ public class Plane extends Geometry {
         double t = alignZero(nQMinusP0/nv);
 
         //there is intersection point
-
         if(t > 0d){
             if(alignZero(t - maxDistance) <= 0){
-                List<GeoPoint> list = new ArrayList<GeoPoint>();
+                List<GeoPoint> list = new ArrayList<>();
                 list.add(new GeoPoint(this , ray.getPoint(t)));
                 return list;
             }

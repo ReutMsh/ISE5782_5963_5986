@@ -1,11 +1,10 @@
 package lighting;
 
 import primitives.Color;
-import renderer.BlackBoard;
 
 /**
  * abstract Class Light
- *
+ * define general physic light.
  * @author Reut and Odelya
  */
 abstract class Light {
@@ -15,7 +14,7 @@ abstract class Light {
     //region constructor
     /**
      * constructor
-     * @param intensity
+     * @param intensity - the light intensity.
      */
     protected Light(Color intensity) {
         this.intensity = intensity;

@@ -24,8 +24,8 @@ public class Ray {
     /**
      * constructor
      * normalize the vector and build the ray
-     * @param p0
-     * @param dir
+     * @param p0 - start of ray.
+     * @param dir - direction of ray.
      */
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
@@ -33,10 +33,10 @@ public class Ray {
     }
 
     /**
-     * constructor
-     * @param head
-     * @param direction
-     * @param n
+     * constructor - build rat that start DELTA after head.
+     * @param head - start of ray.
+     * @param direction - direction of ray.
+     * @param n - add head in direction n.
      */
     public Ray(Point head, Vector direction, Vector n) {
         p0 = head.add(n.scale(n.dotProduct(direction) > 0 ? DELTA : -DELTA));
@@ -73,9 +73,8 @@ public class Ray {
 
 
     /**
-     *Finding a point that is at a distance of 't' from the beginning of the ray
-     * @param t
-     * @return Point
+     * @param t - the distance to add the point.
+     * @return point that is at a distance of 't' from the beginning of the ray.
      */
     public Point getPoint(double t) {
         try {
@@ -90,8 +89,8 @@ public class Ray {
     /**
      * Receives a list of points and returns the point
      * closest to the beginning of the fund
-     * @param pointList
-     * @return Point
+     * @param pointList - list of point.
+     * @return closes point from pointList.
      */
     public Point findClosestPoint(List<Point> pointList)
     {
@@ -103,8 +102,8 @@ public class Ray {
     /**
      * Receives a list of GeoPoints and returns the GeoPoint
      * closest to the beginning of the fund
-     * @param GeoPointList
-     * @return GeoPoint
+     * @param GeoPointList - list of geoPoint.
+     * @return closes geoPoint from pointList.
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> GeoPointList)
     {

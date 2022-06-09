@@ -7,7 +7,8 @@ import java.util.List;
 
 /**
  * class Tube
- * define Tube with Ray and double radius
+ * define tube with Ray and double radius
+ * the tube length is Infinite.
  * extends Geometry
  * @author Reut and Odelya
  */
@@ -19,8 +20,8 @@ public class Tube extends Geometry{
     //region constructor
     /***
      * constructor
-     * @param axisRay
-     * @param radius
+     * @param axisRay - the axis of the cylinder.
+     * @param radius - the radius of the cylinder.
      */
     public Tube(Ray axisRay, double radius) {
         this.axisRay = axisRay;

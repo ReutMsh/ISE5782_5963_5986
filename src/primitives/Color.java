@@ -10,6 +10,10 @@ package primitives;
  * @author Dan Zilberstein
  */
 public class Color {
+
+    /**
+     * min different between two colors -> if the different < DIFFERENT_COLOR the two color are same
+     */
     private final static double DIFFERENT_COLOR = 0;
 
     /**
@@ -76,7 +80,7 @@ public class Color {
         int ir = (int) rgb.d1;
         int ig = (int) rgb.d2;
         int ib = (int) rgb.d3;
-        return new java.awt.Color(ir > 255 ? 255 : ir, ig > 255 ? 255 : ig, ib > 255 ? 255 : ib);
+        return new java.awt.Color(Math.min(ir, 255), Math.min(ig, 255), Math.min(ib, 255));
     }
 
     /**
@@ -146,10 +150,10 @@ public class Color {
     }
 
     /**
-     *check if the two color almost same
+     * check if the two color almost same
      * (until difference of 3)
-     * @param color
-     * @return
+     * @param color - color to check different.
+     * @return if the two color almost same.
      */
     public boolean isClosesColor(Color color) {
         return ((rgb.d1 - color.rgb.d1) < DIFFERENT_COLOR && (rgb.d1 - color.rgb.d1) > -DIFFERENT_COLOR) && //

@@ -22,8 +22,8 @@ public class Sphere extends Geometry{
     /***
      * constructor
      * normalize the vector
-     * @param center
-     * @param radius
+     * @param center - the center point of the sphere.
+     * @param radius - radius of the sphere.
      */
     public Sphere(Point center, double radius) {
         this.center = center;
