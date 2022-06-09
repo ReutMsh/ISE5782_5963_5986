@@ -17,6 +17,10 @@ import java.util.List;
 import static java.awt.Color.BLUE;
 import static java.awt.Color.white;
 
+/**
+ * Unit tests for the Stand in the picture
+ * @author Reut & Odelya
+ */
 public class StandTest {
 
     private Scene scene = new Scene("Test scene");
@@ -29,6 +33,9 @@ public class StandTest {
     private Color spCL = new Color(700,400,400); // stand test Color of Light
     private Point spPL = new Point(100,100,150); // stand test Position of Light
 
+    /**
+     * Build a scene with the Stand in the picture
+     */
     @Test
     void testBuildStand() {
         ShapesScene stand1 = new ShapesScene(new Point(100,25,0), new Point(100,-25,0), //

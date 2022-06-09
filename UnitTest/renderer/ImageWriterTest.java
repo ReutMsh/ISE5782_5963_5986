@@ -14,8 +14,8 @@ class ImageWriterTest {
     //region method
     /**
      * Method that adds a grid to the image (rows and columns)
-     * @param colorTheGrid
-     * @param image
+     * @param colorTheGrid the color that which him we will paint the image
+     * @param image return the image with a grid in color
      */
     void createGrid(Color colorTheGrid , ImageWriter image)
     {

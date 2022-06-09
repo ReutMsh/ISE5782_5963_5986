@@ -14,6 +14,9 @@ class CameraTest {
     /**
      * Test method for
      * {@link Camera#constructRay(int, int, int, int)}.
+     * {@link Camera#moveAroundVRight(double)}.
+     * {@link Camera#moveAroundVTo(double)}.
+     * {@link Camera#moveAroundVUp(double)}.
      */
     @Test
     void testConstructRay() {
@@ -50,7 +53,7 @@ class CameraTest {
         assertEquals(new Ray(ZERO_POINT, new Vector(1, -3, -10)),
                 camera.setVPSize(8, 8).constructRay(4, 4, 1, 0), badRay);
 
-        //move camera
+        // Teat foe method - move camera
 
         assertEquals(new Vector(-1,0,0), camera.moveAroundVUp(Math.toRadians(90)).getvTo(), "move camera around vUp test");
         camera = camera.moveAroundVUp(Math.toRadians(270));

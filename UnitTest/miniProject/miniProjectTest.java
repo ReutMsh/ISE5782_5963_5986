@@ -12,15 +12,22 @@ import renderer.RayTracerBasic;
 import scene.Scene;
 
 
-
+/**
+ * Unit tests for the picture of the project
+ * @author Reut & Odelya
+ */
 public class miniProjectTest {
 
-    private Scene scene = new Scene("Test scene");//.setSoftShadow(81);
+    /**
+     * Create a scene - if desired with improvements of Soft Shadow
+     * enter count of ray in method setSoftShadow
+     * else enter only one ray
+     */
+    private Scene scene = new Scene("Test scene").setSoftShadow(81);
     
      private Camera camera = new Camera(new Point(800,1100,77), new Vector(-800,-1100,0), new Vector(0,0,1)) //
             .setVPSize(200, 200).setVPDistance(1000)//
             .setRayTracer(new RayTracerBasic(scene)).setMultiThreading(true);
-     
      
     private Material material = new Material().setKD(0.5).setKS(0.5).setNShininess(30);
     private Color standColor = new Color(209, 179,155);
@@ -31,6 +38,14 @@ public class miniProjectTest {
     private Vector rightDirection = new Vector(-1,0,0);
     private Vector leftDirection = new Vector(1,0,0);
 
+    /**
+     * The picture with no the improvements of Anti-Aliasing
+     * using with the methods:
+     * {@link ShapesScene#ShapesScene(Point, Point, Point, Point, Material, Color)}.
+     * {@link ShapesScene#ShapesScene(Point, Vector, double, int, Material, Color)}.
+     * {@link ShapesScene#ShapesScene(Vector, double, double, Material, Color, Point...)}.
+     * {@link ShapesScene#findIntersections(Ray)}.
+     */
     @Test
     void testAbacus() {
         //region geometries
@@ -94,6 +109,9 @@ public class miniProjectTest {
         camera.writeToImage(); //
     }
 
+    /**
+     * The picture with the improvements of Anti-Aliasing
+     */
     @Test
     void testAbacusWithAntiAliasing() {
 
@@ -154,7 +172,7 @@ public class miniProjectTest {
         ImageWriter imageWriter = new ImageWriter("abacus with antiAliasing test", 500, 500);
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
-                .renderImage(); //
+                .renderImage(9); //
         camera.writeToImage(); //
     }
 }

@@ -100,22 +100,6 @@ public class RenderTests {
     @Test
     public void basicRenderXml() {
         Scene scene = new Scene("XML Test scene");
-        // enter XML file name and parse from XML file into scene object
-        // ...
-
-        /** FileOutputStream fileOutputStream=new FileOutputStream(new File("./basicRenderTestTwoColors.xml"));
-         //XMLEncoder encoder=new XMLEncoder(fileOutputStream);
-         //fileOutputStream.close();
-         // encoder.close();
-         /**try {
-         FileInputStream fileInputStream = new FileInputStream("./basicRenderTestTwoColors.xml");
-         XMLDecoder decoder = new XMLDecoder(fileInputStream);
-         scene = (Scene) decoder.readObject();
-         fileInputStream.close();
-         decoder.close();
-         }
-         catch (Exception exception)
-         {}**/
         Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
                 .setVPDistance(100) //
                 .setVPSize(500, 500).setImageWriter(new ImageWriter("xml render test", 1000, 1000))

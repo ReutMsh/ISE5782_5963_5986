@@ -19,11 +19,11 @@ class rayConstructionTest {
     /**
      * return num of intersection rays with the geometry
      * for all pixel in the view plan
-     * @param camera
-     * @param intersectable
-     * @param nX
-     * @param nY
-     * @return int
+     * @param camera the camera contains the pixels
+     * @param intersectable list of geometric shapes
+     * @param nX pixel square size
+     * @param nY pixel square size
+     * @return int the number of the intersection pixel with the geometric shapes
      */
     int findNumOfIntersections(Camera camera , Intersectable intersectable , int nX, int nY)
     {

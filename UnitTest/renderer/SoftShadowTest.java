@@ -3,7 +3,6 @@ package renderer;
 import geometries.Plane;
 import geometries.Polygon;
 import geometries.Sphere;
-import geometries.Triangle;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
@@ -13,7 +12,7 @@ import primitives.Vector;
 import scene.Scene;
 
 /**
- * test soft shadow
+ * test for the improvements of - soft shadow
  * @author Reut & Odelya.
  */
 public class SoftShadowTest {
@@ -26,6 +25,9 @@ public class SoftShadowTest {
     private Color standColor = new Color(209, 179,155);
     private Color spCL = new Color(800,800,800); // stand test Color of Light
 
+    /**
+     * test for the soft shadow
+     */
     @Test
     void testSoftShadow() {
         scene.geometries.add(new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0,0,0))//
@@ -45,6 +47,9 @@ public class SoftShadowTest {
         camera.writeToImage(); //
     }
 
+    /**
+     * test for soft Shadow Lv
+     */
     @Test
     void testSoftShadowVL() {
         scene.geometries.add(new Polygon(new Point(100,0,0), new Point(100,100,0), new Point(-100,100,0), new Point(-100,-100,0))//

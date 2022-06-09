@@ -93,6 +93,7 @@ class PlaneTest {
         //endregion
 
         //region neither orthogonal
+
         //TC16: Ray is neither orthogonal nor parallel to and begins at the plane
         ray = new Ray(new Point(1,0,2), new Vector(1, 1,1));
         assertNull(pl.findIntersections(ray), "ERROR: Wrong number of points intersects the plane " +
